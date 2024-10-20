@@ -124,10 +124,7 @@ namespace Quincy.Calender
             
         #endregion
 
-        public Date(int year, int month, int day)
-        {
-            
-        }
+
     }
 
 }
