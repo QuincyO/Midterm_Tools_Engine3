@@ -6,7 +6,7 @@ namespace Quincy.Calender
 {
 
     [System.Serializable]
-    public enum MonthEnum
+    public enum Month
     {
         None,
         January,

@@ -1,16 +1,18 @@
 using System;
-using static Quincy.Calender.MonthEnum;
+using UnityEngine.Serialization;
+using static Quincy.Calender.Month;
+
 
 namespace Quincy.Calender
 {
+    //Todo: If I want to be able to sort the date I need to add  IComparable<Date> interface and use CompareTo() to be able to use dates.Sort() 
     [System.Serializable]
     public struct Date
     {
         
         #region Variables
         
-        public string EventName{get; set; }
-        private bool _isMilitaryTime;
+        public bool isMilitaryTime;
         
         #region Hour/Minute
         //Private Backing Fields
@@ -25,21 +27,32 @@ namespace Quincy.Calender
         {
             get
             {
-                return _isMilitaryTime ? _hour % 12 : _hour;
-            }
+                if (isMilitaryTime) return _hour;
+                else
+                {
+                    return (_hour == 0 || _hour == 12  )? 12 : _hour % 12;
+                }
+            } 
+                
             set
             {
                 {
-                    _hour = Math.Clamp(value, 0, 24);
+                    _hour = Math.Clamp(value, 0, 23);
+                    _isMorning = _hour < 12;
                 }
             }
         }
         
-        public int Minute;
+        public int Minute
+        {
+            get => _minute;
+            set => _minute = Math.Clamp(value, 0, 59);
+        }
         
         public string Period
         {
-            get => _isMorning ? $"am" : $"pm";
+            get => _hour < 12? $"am" : $"pm";
+            private set => _isMorning = _hour < 12;
         }
         
         #endregion
@@ -50,17 +63,17 @@ namespace Quincy.Calender
         private int _month;
         private int _day;
         
-
+        
         public int Year
         {
             get => _year;
             set => _year = value;
         }
 
-        public MonthEnum Month
+        public Month Month
         {
-            get => (MonthEnum)_month;
-            set => _month = (int)value;
+            get => (Month)_month;
+            set => _month = Math.Clamp((int)value, 1, 12);
         }
 
         public int Day
@@ -124,6 +137,31 @@ namespace Quincy.Calender
             
         #endregion
 
+        
+        #region Constructors
+        
+        public Date(int year, Month month, int day,int hour,int minute, bool isMilitaryTime = false) : this()
+        {
+            this.isMilitaryTime = isMilitaryTime;
+            Year = year;
+            Month = month;
+            Day = day;
+            Hour = hour;
+            Minute = minute;
+        }
+
+        public Date(Date date) : this()
+        {
+            Year = date.Year;
+            Month = date.Month;
+            Day = date.Day;
+            Hour = date.Hour;
+            Minute = date.Minute;
+            Period = date.Period;
+            isMilitaryTime = date.isMilitaryTime;
+        }
+        
+        #endregion
 
     }
 
