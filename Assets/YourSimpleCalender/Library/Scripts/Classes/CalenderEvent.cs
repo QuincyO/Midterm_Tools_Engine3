@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Graphs;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Quincy.Calender
 {
-    public partial class Calender
+    public partial class MyCalender 
     {
         public static Date CurrentDate { get; private set; }
     }
@@ -17,7 +18,7 @@ namespace Quincy.Calender
 
         public string EventName { get; set; }
         
-        private event Action<CalenderEvent> onEvent;
+        private event UnityAction<CalenderEvent> OnEvent;
 
         public Color EventColor { get; set; }
 
@@ -26,14 +27,14 @@ namespace Quincy.Calender
 
         #region Boilerplate
         
-        public void RegisterFunction(Action<CalenderEvent> notify)
+        public void RegisterFunction(UnityAction<CalenderEvent> notify)
         {
-            onEvent += notify;
+            OnEvent += notify;
         }
 
-        public void UnregisterFunction(Action<CalenderEvent> notify)
+        public void UnregisterFunction(UnityAction<CalenderEvent> notify)
         {
-            onEvent -= notify;
+            OnEvent -= notify;
         }
 
         public void AddAttendee(ICalenderAttendee calenderAttendee)
@@ -65,8 +66,13 @@ namespace Quincy.Calender
             _dates = new List<Date>();
             EventName = string.Empty;
             _attendees = new List<ICalenderAttendee>();
-            EventColor = Color.white;
-            _dates.Add(Calender.CurrentDate);
+            EventColor = Color.white; 
+            _dates.Add(MyCalender.CurrentDate);
+        }
+
+        public CalenderEvent(ScriptableObjectEvent scriptable)
+        {
+            EventName = scriptable.eventName;
         }
 
 
@@ -88,10 +94,8 @@ namespace Quincy.Calender
 
         void NotifyAttendees()
         {
-            onEvent?.Invoke(this);
+            OnEvent?.Invoke(this);
         }
-
-
     }
     
     

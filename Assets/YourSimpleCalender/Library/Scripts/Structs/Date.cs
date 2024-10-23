@@ -1,4 +1,6 @@
 using System;
+using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.Serialization;
 using static Quincy.Calender.Month;
 
@@ -7,6 +9,8 @@ namespace Quincy.Calender
 {
     //Todo: If I want to be able to sort the date I need to add  IComparable<Date> interface and use CompareTo() to be able to use dates.Sort() 
     [System.Serializable]
+    
+    //IEquatable was added by my IDE automatically, its Essentially an interface that allows me to say if (Date==Date)
     public struct Date : IEquatable<Date>
     {
         
@@ -19,10 +23,11 @@ namespace Quincy.Calender
         private int _hour;
         private int _minute;
         private bool _isMorning;
-        
+
         
         
         //Properties
+        
         public int Hour
         {
             get
@@ -48,13 +53,18 @@ namespace Quincy.Calender
             get => _minute;
             set => _minute = Math.Clamp(value, 0, 59);
         }
-        
+
+        [NotNull]
         public string Period
         {
             get => _hour < 12? $"am" : $"pm";
-            private set => _isMorning = _hour < 12;
+            private set
+            {
+                if (value == null) throw new ArgumentNullException(nameof(value));
+                _isMorning = _hour < 12;
+            }
         }
-        
+
         #endregion
         
         #region Year/Month/Day
@@ -192,4 +202,17 @@ namespace Quincy.Calender
         #endregion
     }
 
+
+
+
+
+    [System.Serializable]
+    public struct DateScriptableObject
+    {
+        public int Year;
+        public Month Month;
+         public int Day;
+        public int Hour;
+        int Minute;
+    }
 }

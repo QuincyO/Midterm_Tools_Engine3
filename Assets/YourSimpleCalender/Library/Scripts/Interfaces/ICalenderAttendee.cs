@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Quincy.Calender;
+using UnityEngine.Events;
 
 namespace Quincy.Calender
 {
@@ -24,9 +25,9 @@ namespace Quincy.Calender
         /// </summary>
         /// <param name="FunctionName">This Function is going to be the one that gets called</param>
         /// <remarks>To use write <see cref="Event.RegisterFunction()"/></remarks>
-        void RegisterNotify(CalenderEvent Event,Action<CalenderEvent> notify);
+        void RegisterNotify(CalenderEvent Event,UnityAction<CalenderEvent> notify);
         
-        void UnregisterNotify(CalenderEvent Event,Action<CalenderEvent> notify);
+        void UnregisterNotify(CalenderEvent Event,UnityAction<CalenderEvent> notify);
     }
 
 }

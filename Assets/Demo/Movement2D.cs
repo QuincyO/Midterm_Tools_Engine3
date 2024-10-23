@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Quincy.Calender;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))] 
 // This is an Attribute in C#, specifically it is one defined by the...
@@ -58,13 +59,13 @@ public class Movement2D : MonoBehaviour,ICalenderAttendee
         Event.RemoveAttendee(this);
     }
 
-    public void RegisterNotify(CalenderEvent Event, Action<CalenderEvent> notify)
+    public void RegisterNotify(CalenderEvent Event, UnityAction<CalenderEvent> notify)
     {
         Event.RegisterFunction(notify);
     }
 
 
-    public void UnregisterNotify(CalenderEvent Event, Action<CalenderEvent> notify)
+    public void UnregisterNotify(CalenderEvent Event, UnityAction<CalenderEvent> notify)
     {
         Event.UnregisterFunction(notify);
     }
