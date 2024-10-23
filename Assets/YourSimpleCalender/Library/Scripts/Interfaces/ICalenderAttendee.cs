@@ -12,22 +12,25 @@ namespace Quincy.Calender
         /// Add this class to the event to be able to attend an Event
         /// </summary>
         /// <param name="Event">Event you want to subsribe to </param>
-        public void AddSelfToEvent(CalenderEvent Event);
+        public void AddSelfToEvent(Event Event);
     
         /// <summary>
         /// Remove yourself from this event
         /// </summary>
         /// <param name="Event"></param>
-        public void RemoveSelfFromEvent(CalenderEvent Event);
+        public void RemoveSelfFromEvent(Event Event);
 
         /// <summary>
         /// Pass In the function you want to get called when the event triggers.
         /// </summary>
         /// <param name="FunctionName">This Function is going to be the one that gets called</param>
         /// <remarks>To use write <see cref="Event.RegisterFunction()"/></remarks>
-        void RegisterNotify(CalenderEvent Event,UnityAction<CalenderEvent> notify);
+        void RegisterNotify(Event Event,UnityAction<string> notify);
         
-        void UnregisterNotify(CalenderEvent Event,UnityAction<CalenderEvent> notify);
+        void UnregisterNotify(Event Event,UnityAction<string> notify);
+
+
+        void OnNotify();
     }
 
 }

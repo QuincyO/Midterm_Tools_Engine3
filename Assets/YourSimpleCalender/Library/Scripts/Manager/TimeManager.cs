@@ -6,6 +6,15 @@ using UnityEngine;
 
 namespace Quincy.Calender
 {
+
+    public partial class CalenderManager
+    {
+        private CalenderManager()
+        {
+            TimeManager.OnTick += Tick;
+        }
+    }
+    
     public class TimeManager : MonoBehaviour
     {
         public static TimeManager Instance{get; private set;}

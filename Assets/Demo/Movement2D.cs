@@ -4,19 +4,20 @@ using System.Collections.Generic;
 using Quincy.Calender;
 using UnityEngine;
 using UnityEngine.Events;
+using Event = Quincy.Calender.Event;
 
 [RequireComponent(typeof(Rigidbody2D))] 
 // This is an Attribute in C#, specifically it is one defined by the...
 // Unity API called RequireComponent which means this component cannot exist on a...
 // GameObject without the other required component type
-public class Movement2D : MonoBehaviour,ICalenderAttendee
+public class Movement2D : MonoBehaviour
 {
     [SerializeField] // SerializeField is an attribute which says that this variable can be saved,
                      // and will be saved in the scene
     public Rigidbody2D rb;
 
 
-                     CalenderEvent calenderEvent;
+                     Event _event;
                      
     [Range(0f, 100f)]
     public float moveSpeed = 6;
@@ -25,11 +26,11 @@ public class Movement2D : MonoBehaviour,ICalenderAttendee
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        CalenderEvent e = new CalenderEvent();
+        Event e = new Event();
         RegisterNotify(e,PlaySound);
     }
     
-    public void PlaySound(CalenderEvent e)
+    public void PlaySound(Event e)
     {
         
     }
@@ -49,25 +50,27 @@ public class Movement2D : MonoBehaviour,ICalenderAttendee
         position.x = 1;
     }
 
-    public void AddSelfToEvent(CalenderEvent Event)
+    public void AddSelfToEvent(Event Event)
     {
-        Event.AddAttendee(this);
     }
 
-    public void RemoveSelfFromEvent(CalenderEvent Event)
+    public void RemoveSelfFromEvent(Event Event)
     {
-        Event.RemoveAttendee(this);
     }
 
-    public void RegisterNotify(CalenderEvent Event, UnityAction<CalenderEvent> notify)
+    public void RegisterNotify(Event Event, UnityAction<Event> notify)
     {
-        Event.RegisterFunction(notify);
+      //  Event.RegisterFunction(notify);
     }
 
 
-    public void UnregisterNotify(CalenderEvent Event, UnityAction<CalenderEvent> notify)
+    public void UnregisterNotify(Event Event, UnityAction<Event> notify)
     {
-        Event.UnregisterFunction(notify);
+        //Event.UnregisterFunction(notify);
     }
 
+    public void OnNotify()
+    {
+        throw new NotImplementedException();
+    }
 }

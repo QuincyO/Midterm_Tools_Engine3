@@ -7,11 +7,10 @@ using static Quincy.Calender.Month;
 
 namespace Quincy.Calender
 {
-    //Todo: If I want to be able to sort the date I need to add  IComparable<Date> interface and use CompareTo() to be able to use dates.Sort() 
     [System.Serializable]
     
     //IEquatable was added by my IDE automatically, its Essentially an interface that allows me to say if (Date==Date)
-    public struct Date : IEquatable<Date>
+    public struct Date : IEquatable<Date>, IComparable<Date>
     {
         
         #region Variables
@@ -20,9 +19,9 @@ namespace Quincy.Calender
         
         #region Hour/Minute
         //Private Backing Fields
-        private int _hour;
-        private int _minute;
-        private bool _isMorning;
+        [SerializeField] int _hour;
+        [SerializeField]private int _minute;
+        [SerializeField]private bool _isMorning;
 
         
         
@@ -69,9 +68,9 @@ namespace Quincy.Calender
         
         #region Year/Month/Day
         //Private Backing Fields//
-        private int _year;
-        private int _month;
-        private int _day;
+        [SerializeField]private int _year;
+        [SerializeField]private int _month;
+        [SerializeField]private int _day;
         
         
         public int Year
@@ -168,6 +167,7 @@ namespace Quincy.Calender
             Hour = date.Hour;
             Minute = date.Minute;
             Period = date.Period;
+            _isMorning = date._isMorning;
             isMilitaryTime = date.isMilitaryTime;
         }
         
@@ -200,6 +200,28 @@ namespace Quincy.Calender
             return !left.Equals(right);
         }
         #endregion
+
+        public int CompareTo(Date other)
+        {
+
+            if (other == null) return 1;
+            
+            var yearComparison = Year.CompareTo(other.Year);
+            if (yearComparison != 0) return yearComparison;
+            var monthComparison = Month.CompareTo(other.Month);
+            if (monthComparison != 0) return monthComparison;
+            var dayComparison = Day.CompareTo(other.Day);
+            if(dayComparison != 0) return dayComparison;
+            var hourComparison = Hour.CompareTo(other.Hour);
+            if (hourComparison != 0) return hourComparison;
+            var minuteComparison = Minute.CompareTo(other.Minute);
+            if (minuteComparison != 0) return minuteComparison;
+            
+            return _isMorning.CompareTo(other._isMorning);
+        }
+        
+        
+        
     }
 
 

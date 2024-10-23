@@ -12,13 +12,17 @@ namespace Quincy.Calender
         public static Date CurrentDate { get; private set; }
     }
 
-    public class CalenderEvent
+    [Serializable]
+    public class Event :IComparable<Event>
     {
-        private List<Date> _dates;
 
-        public string EventName { get; set; }
+        private bool EndDateTriggers = false;
+        private Date startingDate;
+        private Date? endDate;
+
+        [SerializeField] public string EventName;
         
-        private event UnityAction<CalenderEvent> OnEvent;
+        private event UnityAction<string> OnEvent;
 
         public Color EventColor { get; set; }
 
@@ -27,12 +31,12 @@ namespace Quincy.Calender
 
         #region Boilerplate
         
-        public void RegisterFunction(UnityAction<CalenderEvent> notify)
+        public void RegisterFunction(UnityAction<string> notify)
         {
             OnEvent += notify;
         }
 
-        public void UnregisterFunction(UnityAction<CalenderEvent> notify)
+        public void UnregisterFunction(UnityAction<string> notify)
         {
             OnEvent -= notify;
         }
@@ -47,54 +51,71 @@ namespace Quincy.Calender
             _attendees.Remove(calenderAttendee);
         }
 
-        internal void AddDate(Date date)
+        internal void AddEndDate(Date date)
         {
-            _dates.Add(date);
+            EndDateTriggers = true;
+            endDate = date;
         }
 
-        internal void RemoveDate(Date date)
+        internal void RemoveEndDate(Date date)
         {
-            _dates.Remove(date);
+            EndDateTriggers = false;
+            endDate = null;
+
         }
 
         #endregion
 
         #region Constructor
 
-        public CalenderEvent()
+        public Event()
         {
-            _dates = new List<Date>();
             EventName = string.Empty;
             _attendees = new List<ICalenderAttendee>();
             EventColor = Color.white; 
-            _dates.Add(MyCalender.CurrentDate);
+            startingDate = MyCalender.CurrentDate;
+            endDate = null;
+
         }
 
-        public CalenderEvent(ScriptableObjectEvent scriptable)
+        public Event(KeyDate scriptable)
         {
+            
+            startingDate = scriptable.StartDate;
+            endDate = scriptable.EndDate;
             EventName = scriptable.eventName;
+            _attendees = new List<ICalenderAttendee>();
+            
         }
 
 
         /// <summary>
-        /// CalenderEvent Constructor
+        /// Event Constructor
         /// </summary>
         /// <param name="date"> Date to add to event</param>
         /// <param name="eventName">Name of the event</param>
         /// <param name="eventColor">Color of the UI</param>
-        public CalenderEvent(Date date, string eventName, Color eventColor = default)
+        public Event(Date date, string eventName,Date? endDate = null, Color eventColor = default)
         {
-            _dates = new List<Date>();
-            _attendees = new List<ICalenderAttendee>();
-            _dates.Add(date);
+            startingDate = date;
+            this.endDate = endDate;            
             EventColor = eventColor;
             EventName = eventName;
+            _attendees = new List<ICalenderAttendee>();
         }
         #endregion
 
         void NotifyAttendees()
         {
-            OnEvent?.Invoke(this);
+            OnEvent?.Invoke(EventName);
+        }
+
+        public int CompareTo(Event other)
+        {
+            if (other == null) return 1;
+            
+            
+            return startingDate.CompareTo(other.startingDate);
         }
     }
     
