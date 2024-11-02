@@ -11,7 +11,15 @@ namespace Quincy.Calender
     {
         private CalenderManager()
         {
+            //TimeManager.OnTick += Tick;
+        }
+
+        private void Awake()
+        {
             TimeManager.OnTick += Tick;
+            CurrentDate = new Date();
+            CurrentDate.Month = Month.January;
+            CurrentDate.Day = 1;
         }
     }
     
@@ -47,6 +55,7 @@ namespace Quincy.Calender
         /// Time In Seconds for next Tick
         /// </summary>
         public static float TickRate{get; private set;}
+        
         /// <summary>
         /// The Tick Rate is the time in seconds before the Timer Advances forward
         /// </summary>

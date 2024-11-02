@@ -17,17 +17,32 @@ namespace Quincy.Calender
         
         public bool isMilitaryTime;
         
-        #region Hour/Minute
+        #region Hours/Minutes
         //Private Backing Fields
         [SerializeField] int _hour;
-        [SerializeField]private int _minute;
+        [FormerlySerializedAs("_minute")] [SerializeField]private int minutes;
         [SerializeField]private bool _isMorning;
+
+        [SerializeField]
+        private int MaxDays
+        {
+            get
+            {
+                return Month switch
+                {
+                    January or March or May or July or August or October or December => 31,
+                    April or June or September or November => 30,
+                    February => 28,
+                    _ => 0
+                };
+            }
+        }
 
         
         
         //Properties
         
-        public int Hour
+        public int Hours
         {
             get
             {
@@ -47,10 +62,10 @@ namespace Quincy.Calender
             }
         }
         
-        public int Minute
+        public int Minutes
         {
-            get => _minute;
-            set => _minute = Math.Clamp(value, 0, 59);
+            get => minutes;
+            set => minutes = Math.Clamp(value, 0, 59);
         }
 
         [NotNull]
@@ -87,58 +102,59 @@ namespace Quincy.Calender
 
         public int Day
         {
-            get {return _day;}
+            get => _day;
             set
             {
-                int maxDay;
+                /*
                 #region Puts a Clamped value on the day if month doesnt support it
                 switch (Month)
                 {
                     case None:
-                        maxDay = value;
+                        MaxDays = value;
                         break;
                     case January:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     case February:
-                        maxDay = 28;
+                        MaxDays = 28;
                         break;
                     case March:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     case April:
-                        maxDay = 30;
+                        MaxDays = 30;
                         break;
                     case May:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     case June:
-                        maxDay = 30;
+                        MaxDays = 30;
                         break;
                     case July:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     case August:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     case September:
-                        maxDay = 30;
+                        MaxDays = 30;
                         break;
                     case October:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     case November:
-                        maxDay = 30;
+                        MaxDays = 30;
                         break;
                     case December:
-                        maxDay = 31;
+                        MaxDays = 31;
                         break;
                     default:
                         _day = 0;
                         return;
                 }
                 #endregion
-                _day = Math.Clamp(value, 1, maxDay);
+                */
+                _day = Math.Clamp(value, 1, MaxDays);
             }
         }
             #endregion
@@ -149,14 +165,14 @@ namespace Quincy.Calender
         
         #region Constructors
         
-        public Date(int year, Month month, int day,int hour,int minute, bool isMilitaryTime = false) : this()
+        public Date(int year, Month month, int day,int hours,int minutes, bool isMilitaryTime = false) : this()
         {
             this.isMilitaryTime = isMilitaryTime;
             Year = year;
             Month = month;
             Day = day;
-            Hour = hour;
-            Minute = minute;
+            Hours = hours;
+            Minutes = minutes;
         }
 
         public Date(Date date) : this()
@@ -164,12 +180,14 @@ namespace Quincy.Calender
             Year = date.Year;
             Month = date.Month;
             Day = date.Day;
-            Hour = date.Hour;
-            Minute = date.Minute;
+            Hours = date.Hours;
+            Minutes = date.Minutes;
             Period = date.Period;
             _isMorning = date._isMorning;
             isMilitaryTime = date.isMilitaryTime;
         }
+
+
         
         #endregion
 
@@ -177,7 +195,7 @@ namespace Quincy.Calender
         #region Generated by Rider. Overload operators
         public bool Equals(Date other)
         {
-            return isMilitaryTime == other.isMilitaryTime && _hour == other._hour && _minute == other._minute && _isMorning == other._isMorning && _year == other._year && _month == other._month && _day == other._day;
+            return isMilitaryTime == other.isMilitaryTime && _hour == other._hour && minutes == other.minutes && _isMorning == other._isMorning && _year == other._year && _month == other._month && _day == other._day;
         }
 
         public override bool Equals(object obj)
@@ -187,7 +205,7 @@ namespace Quincy.Calender
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(isMilitaryTime, _hour, _minute, _isMorning, _year, _month, _day);
+            return HashCode.Combine(isMilitaryTime, _hour, minutes, _isMorning, _year, _month, _day);
         }
 
         public static bool operator ==(Date left, Date right)
@@ -201,9 +219,10 @@ namespace Quincy.Calender
         }
         #endregion
 
+        
+        #region CompareTo() Interface Function to sort by date
         public int CompareTo(Date other)
         {
-
             if (other == null) return 1;
             
             var yearComparison = Year.CompareTo(other.Year);
@@ -212,15 +231,100 @@ namespace Quincy.Calender
             if (monthComparison != 0) return monthComparison;
             var dayComparison = Day.CompareTo(other.Day);
             if(dayComparison != 0) return dayComparison;
-            var hourComparison = Hour.CompareTo(other.Hour);
+            var hourComparison = Hours.CompareTo(other.Hours);
             if (hourComparison != 0) return hourComparison;
-            var minuteComparison = Minute.CompareTo(other.Minute);
+            var minuteComparison = Minutes.CompareTo(other.Minutes);
             if (minuteComparison != 0) return minuteComparison;
             
             return _isMorning.CompareTo(other._isMorning);
         }
+        #endregion
         
         
+        #region Methods
+
+        public Date AddMinutes(int minutesToAdd)
+        {
+            Date newDate = this; // Create a copy of the current Date struct
+            int totalMinutes = newDate.Minutes + minutesToAdd;
+            newDate.Minutes = totalMinutes % 60;
+
+            // Calculate rollover for hours if totalMinutes exceeds 59
+            if (totalMinutes >= 60)
+            {
+                int hoursToAdd = totalMinutes / 60;
+                newDate = newDate.AddHours(hoursToAdd);
+            }
+
+            return newDate;
+        }
+
+        public Date AddHours(int hoursToAdd)
+        {
+            Date newDate = this; // Create a copy of the current Date struct
+            int totalHours = newDate._hour + hoursToAdd;
+            newDate._hour = totalHours % 24;
+            newDate._isMorning = newDate._hour < 12;
+
+            // Calculate rollover for days if totalHours exceeds 23
+            if (totalHours >= 24)
+            {
+                int daysToAdd = totalHours / 24;
+                newDate = newDate.AddDay(daysToAdd);
+            }
+
+            return newDate;
+        }
+
+        public Date AddDay(int daysToAdd)
+        {
+            Date newDate = this; // Create a copy of the current Date struct
+            int totalDays = newDate.Day + daysToAdd;
+
+            // Handle day overflow by adjusting month/year if necessary
+            while (totalDays > newDate.MaxDays)
+            {
+                totalDays -= newDate.MaxDays;
+                newDate = newDate.AddMonths(1); // Increment month when days exceed max for current month
+            }
+
+            newDate.Day = totalDays;
+            return newDate;
+        }
+
+        public Date AddMonths(int monthsToAdd)
+        {
+            Date newDate = this; // Create a copy of the current Date struct
+            int totalMonths = monthsToAdd + (int)newDate.Month;
+
+            // Handle month overflow by adjusting year if necessary
+            while (totalMonths > 12)
+            {
+                totalMonths -= 12;
+                newDate = newDate.AddYears(1); // Increment year when months exceed 12
+            }
+
+            newDate.Month = (Month)totalMonths;
+            return newDate;
+        }
+
+        public Date AddYears(int yearsToAdd)
+        {
+            Date newDate = this; // Create a copy of the current Date struct
+            newDate.Year += yearsToAdd;
+            return newDate;
+        }
+
+        #endregion
+        
+        #region Overload Operator
+
+        public override string ToString()
+        {
+            return $"{Year:D4}-{(int)Month:D2}-{Day:D2}T  {Hours:D2}:{Minutes:D2} {Period.ToUpper()}";
+
+        }
+        #endregion
         
     }
 
@@ -233,7 +337,7 @@ namespace Quincy.Calender
     {
         public int Year;
         public Month Month;
-         public int Day;
+        public int Day;
         public int Hour;
         int Minute;
     }
