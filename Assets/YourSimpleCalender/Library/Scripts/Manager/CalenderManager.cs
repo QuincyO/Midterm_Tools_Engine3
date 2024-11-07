@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Quincy.Calender;
 using UnityEngine;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Quincy.Calender
 {
@@ -11,12 +13,17 @@ namespace Quincy.Calender
 
 
         private static LinkedList<MyCalender> _calenders = new LinkedList<MyCalender>();
+        private static LinkedList<Date> _eventsToRemove = new LinkedList<Date>();
         private static SortedList<Date, Event> _eventsByDate = new SortedList<Date, Event>();
         private static SortedList<Date, Event> _eventsToday = new SortedList<Date, Event>();
         private Date _lastProcessedDate;
-        private Date CurrentDate;
+        [HideInInspector] public Date CurrentDate {get; private set;}
+
+        [Tooltip("The Date the the calender will start at, Must be set in hours from 0-23")]
         public Date StartingDate;
         public int TimeStepInMinutes = 1;
+
+        public bool IsMilitaryTime = false;
  
 
 
@@ -38,6 +45,7 @@ namespace Quincy.Calender
             }
             _calenders.AddLast(calender);
             UpdateManager();
+
         }
 
         public static void UpdateManager()
@@ -60,6 +68,7 @@ namespace Quincy.Calender
         private void AdvanceCurrentDate()
         {
             CurrentDate = CurrentDate.AddMinutes(TimeStepInMinutes);
+
             //Debug.Log(CurrentDate);
         }
 
@@ -67,8 +76,26 @@ namespace Quincy.Calender
         private void Tick()
         {
             AdvanceCurrentDate();
+            
             PrepareEventsForToday();
+
             ProcessTodayEvents();
+
+            RemoveOldEvents();
+        }
+
+        private void RemoveOldEvents()
+        {
+            if(_eventsToRemove.Count == 0)
+                return;
+            foreach (var date in _eventsToRemove)
+            {
+                if(_eventsByDate.ContainsKey(date))
+                    _eventsByDate.Remove(date);
+                if (_eventsToday.ContainsKey(date))
+                    _eventsToday.Remove(date);
+            }
+            _eventsToRemove.Clear();
         }
 
         private void PrepareEventsForToday()
@@ -87,6 +114,8 @@ namespace Quincy.Calender
                    upcomingEvent.Key.Year == CurrentDate.Year)
                 {
                     _eventsToday.Add(upcomingEvent.Key, upcomingEvent.Value);
+                    _eventsToRemove.AddLast(upcomingEvent.Key);
+
                 }
                 else if (upcomingEvent.Key > CurrentDate)
                 {
@@ -97,20 +126,14 @@ namespace Quincy.Calender
 
         private void ProcessTodayEvents()
         {
-            LinkedList<Date> eventsToRemove = new LinkedList<Date>();
             foreach (var Event in _eventsToday)
             {
-                if (CurrentDate == Event.Key)
+                if (CurrentDate >= Event.Key)
                 {
-                    Event.Value.OnEvent.Invoke(Event.Value.EventName);
-                    eventsToRemove.AddLast(Event.Key);
+                    Event.Value.OnEvent?.Invoke(Event.Value.EventName);
+                    _eventsToRemove.AddLast(Event.Key);
                 }
             }
-            foreach (var date in eventsToRemove)
-            {
-                _eventsToday.Remove(date);
-            }
-            eventsToRemove.Clear();
         }
     }
 }

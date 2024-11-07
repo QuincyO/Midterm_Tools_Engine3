@@ -13,40 +13,39 @@ public class DateTests
     [Test]
     public void Date_EdgeCases12()
     {
-        var date = new Date();
-        date.isMilitaryTime = false;
-        date.Hours = 12;
-        Assert.AreEqual(12, date.Hours);
+        var Date = new Date();
+        Date.isMilitaryTime = false;
+        Date.Hours = 12;
+        Assert.AreEqual(12, Date.Hours);
 
     }
     
     [Test]
     public void Date_EdgeCases0()
     {
-        var date = new Date();
-        date.isMilitaryTime = false;
-        date.Hours = 0;
-        Assert.AreEqual(12, date.Hours);
-
+        var Date = new Date();
+        Date.isMilitaryTime = false;
+        Date.Hours = 0;
+        Assert.AreEqual(12, Date.Hours);
     }
     
     [Test]
     public void Date_EdgeCasesLessThan0()
     {
-        var date = new Date();
-        date.isMilitaryTime = false;
-        date.Hours = -50;
-        Assert.AreEqual(12, date.Hours);
+        var Date = new Date();
+        Date.isMilitaryTime = false;
+        Date.Hours = -50;
+        Assert.AreEqual(12, Date.Hours);
 
     }
     
     [Test]
     public void Date_EdgeCasesGreaterThan12()
     {
-        var date = new Date();
-        date.isMilitaryTime = false;
-        date.Hours = 89;
-        Assert.AreEqual(11, date.Hours);
+        var Date = new Date();
+        Date.isMilitaryTime = false;
+        Date.Hours = 89;
+        Assert.AreEqual(11, Date.Hours);
     }
     
     [Test]
@@ -73,7 +72,7 @@ public class DateTests
         Date date = new Date();
         
         //Testing Mil Time
-        date.isMilitaryTime = true;
+        Date.isMilitaryTime = true;
         for (int i = -50; i < 100; i++)
         {
             date.Hours = i;
@@ -153,7 +152,6 @@ public class DateTests
             Assert.AreEqual(newDate.Day, date.Day);
             Assert.AreEqual(newDate.Hours, date.Hours);
             Assert.AreEqual(newDate.Minutes, date.Minutes);
-            Assert.AreEqual(newDate.isMilitaryTime, date.isMilitaryTime);
         }
     }
     

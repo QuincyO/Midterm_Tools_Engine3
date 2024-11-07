@@ -143,6 +143,7 @@ MonoBehaviour:
   CalenderName: The Most Important Calender Ever
   keyDates:
   - {fileID: 11400000, guid: 7ff945dd38968714ab81ced4e9d54565, type: 2}
+  - {fileID: 11400000, guid: 1ba81758e2dea814bba0d42cf4a7f994, type: 2}
 --- !u!1 &1182398188
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,22 +232,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1cb182d8c8309b4b80e093a6cf614d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentDate:
-    isMilitaryTime: 0
-    _hour: 0
-    minutes: 0
-    _isMorning: 0
-    _year: 1
-    _month: 0
-    _day: 0
   StartingDate:
-    isMilitaryTime: 0
-    _hour: 0
-    minutes: 0
+    _hour: 23
+    minutes: 50
     _isMorning: 0
-    _year: 0
+    _year: 1998
     _month: 1
-    _day: 0
+    _day: 23
+  TimeStepInMinutes: 1
+  IsMilitaryTime: 0
 --- !u!1001 &3821531933616031403
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ namespace Quincy.Calender
             if(Instance != null && Instance != this)
             {
                 Destroy(this.gameObject);
+                return;
             }
             else
             {
@@ -26,6 +27,7 @@ namespace Quincy.Calender
             }
 
             TimeManager.OnTick += Tick;
+            Date.isMilitaryTime = IsMilitaryTime;
             CurrentDate = StartingDate;
             _lastProcessedDate = CurrentDate;
             TimeManager.Initialize();
