@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Quincy.Calender
 {
 
-    [System.Serializable][Flags]
+    [System.Serializable]
     public enum Month
     {
         January = 1,
@@ -20,7 +20,7 @@ namespace Quincy.Calender
         September = 9,
         October = 10,
         November = 11,
-        December =12,
+        December = 12,
     }
     
 }

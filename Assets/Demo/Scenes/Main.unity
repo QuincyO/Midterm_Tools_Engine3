@@ -128,7 +128,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 547008342577019084, guid: a499c6fe5703d9f469d5832d2959df4a, type: 3}
   m_PrefabInstance: {fileID: 6695329374332209210}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &529141568
+--- !u!114 &529141574
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,10 +137,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 529141562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bdeb5d8da2a6984d9e5c50ac12989bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 4edad728b08fd3341bda0e1a82c789fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
+  CalenderName: The Most Important Calender Ever
+  keyDates:
+  - {fileID: 11400000, guid: 7ff945dd38968714ab81ced4e9d54565, type: 2}
 --- !u!1 &1182398188
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +152,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1182398190}
-  - component: {fileID: 1182398189}
   m_Layer: 0
   m_Name: Douglas
   m_TagString: Untagged
@@ -158,19 +159,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1182398189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182398188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bdeb5d8da2a6984d9e5c50ac12989bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 1182398188}
 --- !u!4 &1182398190
 Transform:
   m_ObjectHideFlags: 0
@@ -196,7 +184,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1998956634}
   - component: {fileID: 1998956633}
-  - component: {fileID: 1998956635}
   - component: {fileID: 1998956636}
   m_Layer: 0
   m_Name: Managers
@@ -232,20 +219,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1998956635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998956632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4edad728b08fd3341bda0e1a82c789fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyDates:
-  - {fileID: 11400000, guid: 1ba81758e2dea814bba0d42cf4a7f994, type: 2}
 --- !u!114 &1998956636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,7 +420,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 547008342577019084, guid: a499c6fe5703d9f469d5832d2959df4a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 529141568}
+      addedObject: {fileID: 529141574}
   m_SourcePrefab: {fileID: 100100000, guid: a499c6fe5703d9f469d5832d2959df4a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

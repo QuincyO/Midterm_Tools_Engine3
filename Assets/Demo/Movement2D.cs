@@ -17,7 +17,6 @@ public class Movement2D : MonoBehaviour
     public Rigidbody2D rb;
 
 
-                     Event _event;
                      
     [Range(0f, 100f)]
     public float moveSpeed = 6;

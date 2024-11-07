@@ -16,17 +16,17 @@ namespace Quincy.Calender
     public class Event :IComparable<Event>
     {
 
-        private bool EndDateTriggers = false;
-        private Date startingDate;
-        private Date? endDate;
+        public bool EndDateTriggers = false;
+        public Date startingDate;
+        public Date? endDate;
 
         [SerializeField] public string EventName;
         
-        private event UnityAction<string> OnEvent;
+        public UnityAction<string> OnEvent;
 
         public Color EventColor { get; set; }
 
-        private List<ICalenderAttendee> _attendees;
+        public List<ICalenderAttendee> _attendees;
 
 
         #region Boilerplate
@@ -85,6 +85,7 @@ namespace Quincy.Calender
             endDate = scriptable.EndDate;
             EventName = scriptable.eventName;
             _attendees = new List<ICalenderAttendee>();
+            EventColor = scriptable.eventColor;
             
         }
 
