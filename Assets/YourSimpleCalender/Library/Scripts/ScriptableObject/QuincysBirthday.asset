@@ -9,19 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6886028355380fd48abd75bb21e35811, type: 3}
+  m_Script: {fileID: 11500000, guid: 875ef59b3c7194844aec88d4b974835f, type: 3}
   m_Name: QuincysBirthday
   m_EditorClassIdentifier: 
-  eventName: Quincys Birthday
-  eventColor: {r: 1, g: 0, b: 0, a: 0}
-  eventDates:
-  - isMilitaryTime: 0
-    _hour: 12
-    _minute: 30
-    _isMorning: 1
-    _year: 1998
-    _month: 1
-    _day: 29
-  OnEvent:
-    m_PersistentCalls:
-      m_Calls: []

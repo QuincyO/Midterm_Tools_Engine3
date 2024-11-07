@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using Quincy.Calender;
 using UnityEngine;
 
-
 namespace Quincy.Calender
 {
     public partial class CalenderManager : MonoBehaviour
     {
 
+
         private static LinkedList<MyCalender> _calenders = new LinkedList<MyCalender>();
-         
-        static SortedList<Date, Event> _eventsByDate = new SortedList<Date, Event>();
-        static SortedList<Date,Event> _eventsToday = new SortedList<Date, Event>();
-        public static Date CurrentDate;
-        private static Date _lastProcessedDate;
-        public static Date StartingDate;
-        public static int IncrementAmount = 1;
+        private static SortedList<Date, Event> _eventsByDate = new SortedList<Date, Event>();
+        private static SortedList<Date, Event> _eventsToday = new SortedList<Date, Event>();
+        private Date _lastProcessedDate;
+        private Date CurrentDate;
+        public Date StartingDate;
+        public int TimeStepInMinutes = 1;
+ 
+
 
         public static MyCalender CreateCalender(string calenderName)
         {
@@ -25,11 +26,11 @@ namespace Quincy.Calender
             MyCalender myCalender = obj.AddComponent<MyCalender>();
 
             return myCalender;
+
         }
 
         public static void AddCalender(MyCalender calender)
         {
-
             if (_calenders.Contains(calender))
             {
                 Debug.LogWarning("Calender already exists in the manager");
@@ -39,15 +40,14 @@ namespace Quincy.Calender
             UpdateManager();
         }
 
-
         public static void UpdateManager()
         {
             foreach (var calender in _calenders)
             {
                 foreach (var e in calender.events)
                 {
-                    if(!_eventsByDate.ContainsKey(e.startingDate))
-                    _eventsByDate.Add(e.startingDate,e);
+                    if (!_eventsByDate.ContainsKey(e.startingDate))
+                        _eventsByDate.Add(e.startingDate, e);
                 }
             }
         }
@@ -57,62 +57,60 @@ namespace Quincy.Calender
             TimeManager.isPaused = isPaused;
         }
 
-        private static void AdvanceCurrentDate()
+        private void AdvanceCurrentDate()
         {
-            CurrentDate = CurrentDate.AddMinutes(IncrementAmount);
+            CurrentDate = CurrentDate.AddMinutes(TimeStepInMinutes);
+            //Debug.Log(CurrentDate);
         }
 
-        private static void Tick()
+
+        private void Tick()
         {
             AdvanceCurrentDate();
-
             PrepareEventsForToday();
-
             ProcessTodayEvents();
         }
 
-        private static void PrepareEventsForToday()
+        private void PrepareEventsForToday()
         {
-            if(CurrentDate.Day == _lastProcessedDate.Day &&
-                CurrentDate.Month == _lastProcessedDate.Month && 
+            if (CurrentDate.Day == _lastProcessedDate.Day &&
+                CurrentDate.Month == _lastProcessedDate.Month &&
                 CurrentDate.Year == _lastProcessedDate.Year)
                 return;
 
             _lastProcessedDate = CurrentDate;
 
-
             foreach (var upcomingEvent in _eventsByDate)
             {
-                if(upcomingEvent.Key.Day == CurrentDate.Day &&
+                if (upcomingEvent.Key.Day == CurrentDate.Day &&
                    upcomingEvent.Key.Month == CurrentDate.Month &&
                    upcomingEvent.Key.Year == CurrentDate.Year)
-                   {
-                    _eventsToday.Add(upcomingEvent.Key,upcomingEvent.Value);
-                   }
-                   else if (upcomingEvent.Key > CurrentDate)
-                   {
-                       break;
-                   }
+                {
+                    _eventsToday.Add(upcomingEvent.Key, upcomingEvent.Value);
+                }
+                else if (upcomingEvent.Key > CurrentDate)
+                {
+                    break;
+                }
             }
+        }
 
+        private void ProcessTodayEvents()
+        {
+            LinkedList<Date> eventsToRemove = new LinkedList<Date>();
             foreach (var Event in _eventsToday)
             {
-                _eventsByDate.Remove(Event.Key);
+                if (CurrentDate == Event.Key)
+                {
+                    Event.Value.OnEvent.Invoke(Event.Value.EventName);
+                    eventsToRemove.AddLast(Event.Key);
+                }
             }
-
-        }
-        
-
-        private static void ProcessTodayEvents()
-        {
-          foreach (var Event in _eventsToday)
-          {
-              if(CurrentDate == Event.Key)
-              {
-                  Event.Value.OnEvent.Invoke(Event.Value.EventName);
-              }
-          }
+            foreach (var date in eventsToRemove)
+            {
+                _eventsToday.Remove(date);
+            }
+            eventsToRemove.Clear();
         }
     }
-
 }

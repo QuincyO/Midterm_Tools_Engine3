@@ -9,17 +9,26 @@ namespace Quincy.Calender
 
     public partial class CalenderManager
     {
-        private CalenderManager()
-        {
-            //TimeManager.OnTick += Tick;
-        }
 
+
+
+        public static CalenderManager Instance { get; private set; }
         private void Awake()
         {
+            if(Instance != null && Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+
             TimeManager.OnTick += Tick;
-            CurrentDate = new Date();
-            CurrentDate.Month = Month.January;
-            CurrentDate.Day = 1;
+            CurrentDate = StartingDate;
+            _lastProcessedDate = CurrentDate;
+            TimeManager.Initialize();
         }
     }
     

@@ -12,7 +12,6 @@ public class Gamemanager : MonoBehaviour
 
     private void Awake()
     {
-        TimeManager.Initialize();
         _myCalender = CalenderManager.CreateCalender("Birthdays");
     }
 

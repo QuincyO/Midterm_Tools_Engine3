@@ -20,7 +20,7 @@ namespace Quincy.Calender
         #region Hours/Minutes
         //Private Backing Fields
         [SerializeField] int _hour;
-        [FormerlySerializedAs("_minute")] [SerializeField]private int minutes;
+        [SerializeField]private int minutes;
         [SerializeField]private bool _isMorning;
 
         [SerializeField]
@@ -84,76 +84,28 @@ namespace Quincy.Calender
         #region Year/Month/Day
         //Private Backing Fields//
         [SerializeField]private int _year;
-        [SerializeField]private int _month;
+        [SerializeField]private Month _month;
         [SerializeField]private int _day;
         
         
         public int Year
-        {
-            get => _year;
+        { 
+            readonly get => _year;
             set => _year = value;
         }
 
         public Month Month
-        {
-            get => (Month)_month;
-            set => _month = Math.Clamp((int)value, 1, 12);
+        { 
+            readonly get => _month;
+            set => _month = value;
         }
 
         public int Day
         {
-            get => _day;
+            
+            readonly get => _day;
             set
             {
-                /*
-                #region Puts a Clamped value on the day if month doesnt support it
-                switch (Month)
-                {
-                    case None:
-                        MaxDays = value;
-                        break;
-                    case January:
-                        MaxDays = 31;
-                        break;
-                    case February:
-                        MaxDays = 28;
-                        break;
-                    case March:
-                        MaxDays = 31;
-                        break;
-                    case April:
-                        MaxDays = 30;
-                        break;
-                    case May:
-                        MaxDays = 31;
-                        break;
-                    case June:
-                        MaxDays = 30;
-                        break;
-                    case July:
-                        MaxDays = 31;
-                        break;
-                    case August:
-                        MaxDays = 31;
-                        break;
-                    case September:
-                        MaxDays = 30;
-                        break;
-                    case October:
-                        MaxDays = 31;
-                        break;
-                    case November:
-                        MaxDays = 30;
-                        break;
-                    case December:
-                        MaxDays = 31;
-                        break;
-                    default:
-                        _day = 0;
-                        return;
-                }
-                #endregion
-                */
                 _day = Math.Clamp(value, 1, MaxDays);
             }
         }
