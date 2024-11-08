@@ -39,8 +39,6 @@ namespace Quincy.Calender
         }
 
         
-        
-
         public int Hours
         {
             get
@@ -51,22 +49,8 @@ namespace Quincy.Calender
                     return (_hour == 0 || _hour == 12  )? 12 : _hour % 12;
                 }
             } 
-                
             set
             {
-                
-                // if (isMilitaryTime)
-                // {
-                //     // Set hour directly for 24-hour format (0-23)
-                //     _hour = Math.Clamp(value, 0, 23);
-                // }
-                // else
-                // {
-                //     // Set hour for 12-hour format (1-12) with AM/PM control
-                //     int hour12 = Math.Clamp(value, 1, 12);
-                //     _hour = (_isMorning || hour12 == 12) ? hour12 % 12 : (hour12 % 12) + 12;
-                // }
-                
                _hour = Math.Clamp(value, 0, 23);
                _isMorning = _hour < 12;
         
