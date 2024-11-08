@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 using static Quincy.Calender.Month;
 
 
+
 namespace Quincy.Calender
 {
     [System.Serializable]
@@ -24,7 +25,7 @@ namespace Quincy.Calender
         [SerializeField]private bool _isMorning;
 
         [SerializeField]
-        private int MaxDays
+        public int MaxDays
         {
             get
             {

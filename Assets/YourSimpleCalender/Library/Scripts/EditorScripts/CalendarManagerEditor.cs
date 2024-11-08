@@ -18,7 +18,7 @@ public class CalendarManagerEditor : Editor
     public override void OnInspectorGUI()
     {
         // serializedObject.Update();
-        // DrawDefaultInspector();
+         DrawDefaultInspector();
 
         // EditorGUILayout.Space(10);
         // EditorGUILayout.LabelField("Calendar Status", EditorStyles.boldLabel);

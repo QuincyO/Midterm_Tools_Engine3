@@ -20,7 +20,7 @@ namespace Quincy.Calender
         [HideInInspector] public Date CurrentDate {get; private set;}
 
         [Tooltip("The Date the the calender will start at, Must be set in hours from 0-23")]
-        public Date StartingDate;
+        [SerializeField] public Date StartingDate;
         public int TimeStepInMinutes = 1;
 
         public bool IsMilitaryTime = false;

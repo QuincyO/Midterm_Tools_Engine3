@@ -19,7 +19,6 @@ public class CalenderUI : MonoBehaviour
 
      void Awake()
     {
-        #region Set Text Components
 
 
         var texts = GetComponentsInChildren<TMP_Text>();
@@ -41,7 +40,6 @@ public class CalenderUI : MonoBehaviour
                 continue;
             }
         }
-        #endregion
 
         #region Set Button Components
         var buttons = GetComponentsInChildren<Button>();
@@ -63,14 +61,11 @@ public class CalenderUI : MonoBehaviour
         #region Set Calender Panels
 
         calenderPanels = GetComponentsInChildren<CalenderPanel>();
-        int count = 1;
-        foreach (var panel in calenderPanels)
-        {
-            panel.SetHighlight(false);
-            panel.SetDay(count);
-            count++;
-        }
 
+        for (int i = 0; i < calenderPanels.Length; i++)
+        {
+            calenderPanels[i].SetHighlight(false);
+        }
         #endregion
     }
 
@@ -80,13 +75,22 @@ public class CalenderUI : MonoBehaviour
         nextButton.onClick.AddListener(GoNextMonth);
         previousButton.onClick.AddListener(GoPreviousMonth);
         focusedDate = CalenderManager.Instance.CurrentDate;
+
+        for (int i = 0; i < calenderPanels.Length; i++)
+        {
+
+            var date = i % focusedDate.MaxDays + 1;
+            calenderPanels[i].SetDay(date);
+        }
         UpdateCalenderUI();
     }
 
     void UpdateCalenderUI()
     {
-        dayText.text = focusedDate.Day.ToString();
+        yearText.text = focusedDate.Year.ToString();
+        //dayText.text = focusedDate.Day.ToString();
         monthText.text = focusedDate.Month.ToString();
+        calenderPanels[focusedDate.Day - 1].SetHighlight(true);
     }
     
 
