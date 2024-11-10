@@ -2366,8 +2366,8 @@ MonoBehaviour:
     minutes: 0
     _isMorning: 0
     _year: 1998
-    _month: 2
-    _day: 25
+    _month: 1
+    _day: 1
   TimeStepInMinutes: 1
   IsMilitaryTime: 0
 --- !u!1001 &3821531933616031403

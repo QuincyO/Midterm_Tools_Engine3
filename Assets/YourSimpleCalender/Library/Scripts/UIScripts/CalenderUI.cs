@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Quincy.Calender;
@@ -76,34 +77,84 @@ public class CalenderUI : MonoBehaviour
         previousButton.onClick.AddListener(GoPreviousMonth);
         focusedDate = CalenderManager.Instance.CurrentDate;
 
+
+
+
+        UpdateCalenderUI();
+    }
+
+
+
+    private void SyncDatesToMonth()
+    {
+        Date firstOfMonth = new Date(focusedDate.Year, focusedDate.Month, 1, 0, 0);
+        int startDayOffset = (int)firstOfMonth.DayOfWeek();
+        
+
+
         for (int i = 0; i < calenderPanels.Length; i++)
         {
+            int day = i - startDayOffset + 1;
 
-            var date = i % focusedDate.MaxDays + 1;
-            calenderPanels[i].SetDay(date);
+            if (day > 0 && day <= focusedDate.MaxDays)
+            {
+                calenderPanels[i].SetDay(day);
+            }
+            else
+            {
+                calenderPanels[i].SetDay(0);
+            }
+            
+            //var date = i % focusedDate.MaxDays + 1;
+            //calenderPanels[i].SetDay(date);
         }
-        UpdateCalenderUI();
     }
 
     void UpdateCalenderUI()
     {
+        calenderPanels[focusedDate.Day - 1].SetHighlight(false);
         yearText.text = focusedDate.Year.ToString();
         //dayText.text = focusedDate.Day.ToString();
         monthText.text = focusedDate.Month.ToString();
-        calenderPanels[focusedDate.Day - 1].SetHighlight(true);
+
+        if (focusedDate.Month == CalenderManager.Instance.CurrentDate.Month &&
+         focusedDate.Year == CalenderManager.Instance.CurrentDate.Year)
+        {
+           calenderPanels[focusedDate.Day - 1].SetHighlight(true);
+        }
+         SyncDatesToMonth();
     }
     
 
     #region Month Switching Methods
+
+    
     void GoNextMonth()
     {
-        // Implement the logic to go to the next month
+        Date nextMonth = focusedDate.AddMonths(1);
+        focusedDate = nextMonth;
+
+        UpdateCalenderUI();
     }
 
     void GoPreviousMonth()
     {
-        // Implement the logic to go to the previous month
+        Date previousMonth = focusedDate.AddMonths(-1);
+        focusedDate = previousMonth;
+        UpdateCalenderUI();
     }
 
+    #endregion
+
+
+
+    #region ContextMenu Methods
+    [ContextMenu("Calculate Days")]
+    public void CalcDays()
+    {
+        Date date = new Date(1990, Month.February, 1, 0, 0);
+
+
+    }
     #endregion
 }

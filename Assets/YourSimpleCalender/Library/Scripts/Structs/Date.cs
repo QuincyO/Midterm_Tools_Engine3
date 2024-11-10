@@ -184,6 +184,33 @@ namespace Quincy.Calender
         
         #region Methods
 
+        public int DaysSince(Date otherDate)
+        {
+            int days = 0;
+            Date date = new Date(otherDate);
+            while (date.CompareTo(this) < 0)
+            {
+                date = date.AddDay(1);
+                days++;
+            }
+
+            Debug.Log(days);
+            return days;
+        }
+
+        public int DayOfWeek()
+        {
+            int refYear = 1900;
+            Month refMonth = (Month)1;
+            int refDay = 1;
+
+            int totalDays = DaysSince(new Date(refYear, refMonth, refDay, 0, 0));
+
+            return totalDays % 7;
+        }
+
+
+
         public Date AddMinutes(int minutesToAdd)
         {
             Date newDate = this; // Create a copy of the current Date struct
@@ -229,6 +256,12 @@ namespace Quincy.Calender
                 newDate = newDate.AddMonths(1); // Increment month when days exceed max for current month
             }
 
+            while (totalDays < 1)
+            {
+                totalDays += newDate.MaxDays;
+                newDate = newDate.AddMonths(-1); // Decrement month when days go below 1
+            }
+
             newDate.Day = totalDays;
             return newDate;
         }
@@ -243,6 +276,12 @@ namespace Quincy.Calender
             {
                 totalMonths -= 12;
                 newDate = newDate.AddYears(1); // Increment year when months exceed 12
+            }
+
+            while (totalMonths < 1)
+            {
+                totalMonths += 12;
+                newDate = newDate.AddYears(-1); // Decrement year when months go below 1
             }
 
             newDate.Month = (Month)totalMonths;

@@ -19,6 +19,14 @@ public class DateTests
         Assert.AreEqual(12, Date.Hours);
 
     }
+
+    [Test]
+    public void Date_DaysSince()
+    {
+        Date date = new Date(1990, Month.January, 1, 0, 0);
+        Date date2 = new Date(1991, Month.February,28,0,0);; 
+        Assert.AreEqual(423, date2.DaysSince(date));
+    }
     
     [Test]
     public void Date_EdgeCases0()
