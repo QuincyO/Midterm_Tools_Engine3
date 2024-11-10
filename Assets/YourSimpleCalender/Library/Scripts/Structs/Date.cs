@@ -194,7 +194,7 @@ namespace Quincy.Calender
                 days++;
             }
 
-            Debug.Log(days);
+            //Debug.Log(days);
             return days;
         }
 

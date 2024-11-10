@@ -77,9 +77,6 @@ public class CalenderUI : MonoBehaviour
         previousButton.onClick.AddListener(GoPreviousMonth);
         focusedDate = CalenderManager.Instance.CurrentDate;
 
-
-
-
         UpdateCalenderUI();
     }
 
@@ -87,9 +84,15 @@ public class CalenderUI : MonoBehaviour
 
     private void SyncDatesToMonth()
     {
+
+        //Bug: there is a bug, that if you keep on advancing months, the end date will get cut off instead of the first rolling back to fit.
+        //Resolution: on the months that there is an overflow, I need to create another line of 7 days to fit the remaining days.
+        //Todo: Fix this bug
+        
         Date firstOfMonth = new Date(focusedDate.Year, focusedDate.Month, 1, 0, 0);
         int startDayOffset = (int)firstOfMonth.DayOfWeek();
         
+        //TODO: Show upcoming events on the calender
 
 
         for (int i = 0; i < calenderPanels.Length; i++)
@@ -99,10 +102,12 @@ public class CalenderUI : MonoBehaviour
             if (day > 0 && day <= focusedDate.MaxDays)
             {
                 calenderPanels[i].SetDay(day);
+                calenderPanels[i].MakeAvailable();
             }
             else
             {
                 calenderPanels[i].SetDay(0);
+                calenderPanels[i].MakeUnavailable();
             }
             
             //var date = i % focusedDate.MaxDays + 1;
@@ -112,17 +117,31 @@ public class CalenderUI : MonoBehaviour
 
     void UpdateCalenderUI()
     {
-        calenderPanels[focusedDate.Day - 1].SetHighlight(false);
-        yearText.text = focusedDate.Year.ToString();
-        //dayText.text = focusedDate.Day.ToString();
-        monthText.text = focusedDate.Month.ToString();
+        SetMonthText();
+        SetYearText();
 
+        SetDateHighlight();
+
+
+        SyncDatesToMonth();
+    }
+
+    private void SetMonthText()
+    {
+        monthText.text = focusedDate.Month.ToString();
+    }
+    private void SetYearText()
+    {
+        yearText.text = focusedDate.Year.ToString();
+    }
+    private void SetDateHighlight()
+    {
+        calenderPanels[focusedDate.Day - 1].SetHighlight(false);
         if (focusedDate.Month == CalenderManager.Instance.CurrentDate.Month &&
          focusedDate.Year == CalenderManager.Instance.CurrentDate.Year)
         {
            calenderPanels[focusedDate.Day - 1].SetHighlight(true);
         }
-         SyncDatesToMonth();
     }
     
 

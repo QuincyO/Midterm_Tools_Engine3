@@ -10,12 +10,14 @@ public class CalenderPanel : MonoBehaviour
 
    [SerializeField] private TMP_Text dayText;
    [SerializeField] private GameObject highlight;
+   [SerializeField] private Image background;
 
 
    void Awake()
    {
       dayText = GetComponentInChildren<TMP_Text>();
       highlight = transform.Find("Highlight").gameObject;
+      background = GetComponent<Image>();
    }
 
 
@@ -27,5 +29,16 @@ public class CalenderPanel : MonoBehaviour
    public void SetDay(int day)
    {
       dayText.text = day.ToString();
+   }
+
+   public void MakeUnavailable()
+   {
+      background.color = new Color(1, .7f, .7f,1);
+      dayText.gameObject.SetActive(false);
+   }
+   public void MakeAvailable()
+   {
+      background.color = new Color(1, 1, 1,1);
+      dayText.gameObject.SetActive(true);
    }
 }

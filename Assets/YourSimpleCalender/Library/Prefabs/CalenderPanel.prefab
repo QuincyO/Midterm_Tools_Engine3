@@ -228,6 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayText: {fileID: 0}
   highlight: {fileID: 0}
+  background: {fileID: 0}
 --- !u!1 &9016211039382662764
 GameObject:
   m_ObjectHideFlags: 0
