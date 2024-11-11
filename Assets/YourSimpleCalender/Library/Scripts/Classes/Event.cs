@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Graphs;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Quincy.Calender
 {
@@ -27,6 +28,8 @@ namespace Quincy.Calender
         public Color EventColor { get; set; }
 
         public List<ICalenderAttendee> _attendees;
+
+        public Image EventIcon;
 
 
         #region Boilerplate
