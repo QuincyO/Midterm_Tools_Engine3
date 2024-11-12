@@ -91,7 +91,7 @@ namespace Quincy.Calender
         {
             CurrentDate = CurrentDate.AddMinutes(TimeStepInMinutes);
 
-            //Debug.Log(CurrentDate);
+            Debug.Log(CurrentDate);
         }
 
 
