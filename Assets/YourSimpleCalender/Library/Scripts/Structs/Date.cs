@@ -216,7 +216,6 @@ namespace Quincy.Calender
             Date newDate = this; // Create a copy of the current Date struct
             int totalMinutes = newDate.Minutes + minutesToAdd;
             newDate.Minutes = totalMinutes % 60;
-
             // Calculate rollover for hours if totalMinutes exceeds 59
             if (totalMinutes >= 60)
             {

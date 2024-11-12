@@ -18,6 +18,8 @@ namespace Quincy.Calender
         private static SortedList<Date, Event> _eventsToday = new SortedList<Date, Event>();
         private Date _lastProcessedDate;
         [HideInInspector] public Date CurrentDate {get; private set;}
+        public static event Action<Date> OnNewDay;
+        public static event Action OnTimeChanged;
 
         [Tooltip("The Date the the calender will start at, Must be set in hours from 0-23")]
         [SerializeField] public Date StartingDate;
@@ -90,7 +92,7 @@ namespace Quincy.Calender
         private void AdvanceCurrentDate()
         {
             CurrentDate = CurrentDate.AddMinutes(TimeStepInMinutes);
-
+            OnTimeChanged?.Invoke();
             Debug.Log(CurrentDate);
         }
 
@@ -127,8 +129,8 @@ namespace Quincy.Calender
                 CurrentDate.Year == _lastProcessedDate.Year)
                 return;
 
+            OnNewDay?.Invoke(CurrentDate);
             _lastProcessedDate = CurrentDate;
-
             foreach (var upcomingEvent in _eventsByDate)
             {
                 if (upcomingEvent.Key.Day == CurrentDate.Day &&

@@ -17,11 +17,12 @@ public class CalenderUI : MonoBehaviour
     [SerializeField] private Date focusedDate;
 
     [SerializeField] CalenderPanel[] calenderPanels;
+    [SerializeField]private TMP_Text timeText;
 
-     void Awake()
+    void Awake()
     {
 
-
+        #region Set Text Components
         var texts = GetComponentsInChildren<TMP_Text>();
         foreach (var text in texts)
         {
@@ -40,7 +41,18 @@ public class CalenderUI : MonoBehaviour
                 yearText = text;
                 continue;
             }
+            else if (text.name == "TimeText")
+            {
+                timeText = text;
+                continue;
+            }
+
+            if (monthText != null && yearText != null && timeText != null)
+            {
+                break;
+            }
         }
+        #endregion
 
         #region Set Button Components
         var buttons = GetComponentsInChildren<Button>();
@@ -56,6 +68,12 @@ public class CalenderUI : MonoBehaviour
                 previousButton = button;
                 continue;
             }
+
+
+            if (nextButton != null && previousButton != null)
+            {
+                break;
+            }
         }
         #endregion
 
@@ -66,20 +84,40 @@ public class CalenderUI : MonoBehaviour
         for (int i = 0; i < calenderPanels.Length; i++)
         {
             calenderPanels[i].SetHighlight(false);
+            calenderPanels[i].name = $"Panel: {i+1}";
         }
         #endregion
+
+    }
+    
+
+    private void OnEnable() {
+        CalenderManager.OnTimeChanged += SetTimeText;
+        CalenderManager.OnNewDay += NewDay;
+
+    }
+    void OnDisable()
+    {
+        CalenderManager.OnTimeChanged -= SetTimeText;
+        CalenderManager.OnNewDay -= NewDay;
     }
 
+    private void SetTimeText()
+    {
+        int Hours = CalenderManager.Instance.CurrentDate.Hours;
+        int Minutes = CalenderManager.Instance.CurrentDate.Minutes;
+        string period = CalenderManager.Instance.CurrentDate.Period;
+        timeText.text = $"{Hours.ToString("D2")}:{Minutes.ToString("D2")} {period}";
+    }
 
     void Start()
     {
         nextButton.onClick.AddListener(GoNextMonth);
         previousButton.onClick.AddListener(GoPreviousMonth);
         focusedDate = CalenderManager.Instance.CurrentDate;
-
+        SetTimeText();
         UpdateCalenderUI();
     }
-
 
 
     private void SyncDatesToMonth()
@@ -119,6 +157,7 @@ public class CalenderUI : MonoBehaviour
     {
         SetMonthText();
         SetYearText();
+        
 
         SetDateHighlight();
 
@@ -154,7 +193,12 @@ public class CalenderUI : MonoBehaviour
     }
     private void SetDateHighlight()
     {
-        calenderPanels[focusedDate.Day - 1].SetHighlight(false);
+
+        foreach (var panel in calenderPanels)
+        {
+            panel.SetHighlight(false);
+        }
+        //calenderPanels[focusedDate.Day - 1].SetHighlight(false);
         if (focusedDate.Month == CalenderManager.Instance.CurrentDate.Month &&
          focusedDate.Year == CalenderManager.Instance.CurrentDate.Year)
         {
@@ -162,6 +206,17 @@ public class CalenderUI : MonoBehaviour
         }
     }
     
+    #region Change Day
+
+    private void NewDay(Date newDay)
+    {
+        focusedDate = newDay;
+        SetTimeText();
+        UpdateCalenderUI();
+    }
+
+    #endregion
+
 
     #region Month Switching Methods
 

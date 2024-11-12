@@ -22,7 +22,7 @@ public class EventUI : MonoBehaviour
 
         border = GetComponent<Image>();
 
-        childGameObject = GetComponentInChildren<TMP_Text>().gameObject;
+        childGameObject = transform.Find("EventText").gameObject;
         if(childGameObject.name == "EventText")
         {
             eventName = childGameObject.GetComponent<TMP_Text>();

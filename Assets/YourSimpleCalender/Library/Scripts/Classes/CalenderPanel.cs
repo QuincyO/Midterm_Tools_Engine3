@@ -28,10 +28,7 @@ public class CalenderPanel : MonoBehaviour
       events.Add(
          eventObject.transform.GetChild(0).GetComponent<EventUI>()
       );
-
    }
-
-
 
    public void SetHighlight(bool isHighlighted)
    {
@@ -55,9 +52,11 @@ public class CalenderPanel : MonoBehaviour
 
    public void AddEvent(Event e)
    {
-      var newEvent = Instantiate(eventPrefab, eventObject.transform).GetComponent<EventUI>();
-      newEvent.SetEventDetails(e);
-      events.Add(newEvent);
+      var newEvent = Instantiate(eventPrefab, eventObject.transform);
+      newEvent.name = e.EventName;
+      var eventUI = newEvent.GetComponent<EventUI>();
+      eventUI.SetEventDetails(e);
+      events.Add(eventUI);
    }
 
    public void ClearEvents()
@@ -66,5 +65,6 @@ public class CalenderPanel : MonoBehaviour
       {
          Destroy(e.gameObject);
       }
+      events.Clear();
    }
 }
