@@ -157,13 +157,10 @@ public class CalenderUI : MonoBehaviour
     {
         SetMonthText();
         SetYearText();
-        
 
         SetDateHighlight();
 
-
         SyncDatesToMonth();
-
         SyncEventsToDays();
     }
 

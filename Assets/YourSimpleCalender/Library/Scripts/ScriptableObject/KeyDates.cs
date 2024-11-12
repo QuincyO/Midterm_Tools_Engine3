@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 namespace Quincy.Calender
 {
-
-    
     [CreateAssetMenu(fileName = "New Scriptable Object Event", menuName = "Scriptable Object Event")]
     public class KeyDate : ScriptableObject
     {
@@ -15,9 +13,6 @@ namespace Quincy.Calender
         public Color eventColor = Color.white;
 
         public Date StartDate;
-        public Date EndDate;
-        public UnityEvent OnEvent;
     }
-
-
+    
 }

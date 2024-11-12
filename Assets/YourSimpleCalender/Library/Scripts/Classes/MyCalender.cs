@@ -12,7 +12,7 @@ namespace Quincy.Calender
         public string CalenderName;
 
 
-
+        
         public  LinkedList<Event> events; //The List that will actually be used to store events
         [SerializeField] private List<KeyDate> keyDates = new List<KeyDate>(); //Editor List of Dates, created with SCriptable Objects
 

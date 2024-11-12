@@ -14,8 +14,7 @@ namespace Quincy.Calender
 
         public static CalenderManager Instance { get; private set; }
 
-       
-
+    
         private void Awake()
         {
             if(Instance != null && Instance != this)
@@ -31,9 +30,15 @@ namespace Quincy.Calender
 
             TimeManager.OnTick += Tick;
             Date.isMilitaryTime = IsMilitaryTime;
+            TimeManager.SetTickRate(TickRate);
             CurrentDate = StartingDate;
             _lastProcessedDate = CurrentDate;
             TimeManager.Initialize();
+
+            foreach (var weatherEvent in weatherPrefabs)
+            {
+                Weather.Add(weatherEvent.Key, weatherEvent.weatherPrefab);
+            }
         }
     }
     

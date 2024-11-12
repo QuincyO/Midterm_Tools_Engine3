@@ -19,17 +19,8 @@ namespace Quincy.Calender
             Event.RemoveAttendee(this);
         }
 
-        public void RegisterNotify(Event Event, UnityAction<string> notify)
-        {
-            Event.RegisterFunction(notify);
-        }
 
-        public void UnregisterNotify(Event Event, UnityAction<string> notify)
-        {
-            Event.UnregisterFunction(notify);
-        }
-
-        public void OnNotify()
+        public void OnNotify(Event e)
         {
             
         }

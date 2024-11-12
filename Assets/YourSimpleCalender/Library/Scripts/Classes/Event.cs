@@ -85,11 +85,10 @@ namespace Quincy.Calender
         {
             
             startingDate = scriptable.StartDate;
-            endDate = scriptable.EndDate;
             EventName = scriptable.eventName;
             _attendees = new List<ICalenderAttendee>();
             EventColor = scriptable.eventColor;
-            
+
         }
 
 
@@ -109,9 +108,13 @@ namespace Quincy.Calender
         }
         #endregion
 
-        void NotifyAttendees()
+        public void NotifyAttendees()
         {
             OnEvent?.Invoke(EventName);
+            foreach (var attendee in _attendees)
+            {
+                attendee.OnNotify(this);
+            }
         }
 
         public int CompareTo(Event other)

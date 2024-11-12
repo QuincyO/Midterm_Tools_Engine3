@@ -1,17 +1,15 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
-using Quincy.Calender;
 using UnityEngine;
-using System.Linq;
-using System.Runtime.InteropServices;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.U2D;
 
 namespace Quincy.Calender
 {
     public partial class CalenderManager : MonoBehaviour
     {
 
-
+        
         private static LinkedList<MyCalender> _calenders = new LinkedList<MyCalender>();
         private static LinkedList<Date> _eventsToRemove = new LinkedList<Date>();
         private static SortedList<Date, Event> _eventsByDate = new SortedList<Date, Event>();
@@ -21,11 +19,21 @@ namespace Quincy.Calender
         public static event Action<Date> OnNewDay;
         public static event Action OnTimeChanged;
 
+        [Header("Calender Settings")]
         [Tooltip("The Date the the calender will start at, Must be set in hours from 0-23")]
         [SerializeField] public Date StartingDate;
-        public int TimeStepInMinutes = 1;
+        [SerializeField] public List<WeatherEvents> weatherPrefabs = new List<WeatherEvents>(); //This is just so I can add weather events in the inspector
+        [SerializeField] public static Dictionary<string,GameObject> Weather = new Dictionary<string, GameObject>();
 
-        public bool IsMilitaryTime = false;
+        
+        
+        [Space][Header("Time Settings")]
+        public int TimeStepInMinutes = 1;
+        public float TickRate = 1;
+        [SerializeField] Light2D sun; 
+
+
+        [HideInInspector]public bool IsMilitaryTime = false;
  
 
 
@@ -63,7 +71,7 @@ namespace Quincy.Calender
         }
 
 
-         public List<Quincy.Calender.Event> GetEventsForMonth(Month? month, int year)
+         public List<Quincy.Calender.Event> GetEventsForMonth(Month month, int year)
         {
 
             List<Quincy.Calender.Event> events = new List<Quincy.Calender.Event>();
@@ -154,10 +162,17 @@ namespace Quincy.Calender
             {
                 if (CurrentDate >= Event.Key)
                 {
-                    Event.Value.OnEvent?.Invoke(Event.Value.EventName);
+                    Event.Value.NotifyAttendees();
                     _eventsToRemove.AddLast(Event.Key);
                 }
             }
         }
     }
+    [Serializable]
+    public class WeatherEvents
+    {
+        public string Key;
+        public GameObject weatherPrefab;
+    }
+
 }
