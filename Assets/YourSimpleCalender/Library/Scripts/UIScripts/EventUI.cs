@@ -43,8 +43,11 @@ public class EventUI : MonoBehaviour
     {
         if (eventDetails.EventName == "") return;
         this.eventDetails = eventDetails;
+        var date = eventDetails.startingDate;
 
-        eventName.text = $"{eventDetails.startingDate.Hours}:{eventDetails.startingDate.Minutes} {eventDetails.EventName}";
+        eventName.text =
+         $"{date.FormattedHour}:{date.FormattedMinutes}{date.Period} " +
+         $"{eventDetails.EventName}";
 
         if (eventDetails.EventIcon == null) eventImage.color = Color.clear;
         else eventImage.sprite = eventDetails.EventIcon.sprite;

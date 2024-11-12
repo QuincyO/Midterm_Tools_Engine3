@@ -104,10 +104,10 @@ public class CalenderUI : MonoBehaviour
 
     private void SetTimeText()
     {
-        int Hours = CalenderManager.Instance.CurrentDate.Hours;
-        int Minutes = CalenderManager.Instance.CurrentDate.Minutes;
+        string Hours = CalenderManager.Instance.CurrentDate.FormattedHour;
+        string Minutes = CalenderManager.Instance.CurrentDate.FormattedMinutes;
         string period = CalenderManager.Instance.CurrentDate.Period;
-        timeText.text = $"{Hours.ToString("D2")}:{Minutes.ToString("D2")} {period}";
+        timeText.text = $"{Hours}:{Minutes} {period}";
     }
 
     void Start()

@@ -106,6 +106,13 @@ namespace Quincy.Calender
             
         #endregion
 
+        #region Formatted Date Strings
+
+        public string FormattedHour => Hours.ToString("D2");
+        public string FormattedMinutes => Minutes.ToString("D2");
+        public string FormattedDay => Day.ToString("D2");
+        public string FormattedYear => Year.ToString("D4");
+        #endregion
         
         #region Constructors
         
