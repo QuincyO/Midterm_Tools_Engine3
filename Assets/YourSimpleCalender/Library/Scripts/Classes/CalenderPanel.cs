@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Quincy.Calender;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Event = Quincy.Calender.Event;
 
 public class CalenderPanel : MonoBehaviour
 {
    // [SerializeField] private TextMeshProUGUI _monthText;
 
-   [SerializeField] private TMP_Text dayText;
+   [SerializeField] public TMP_Text dayText {get; private set;}
    [SerializeField] private GameObject highlight;
    [SerializeField] private Image background;
+   [SerializeField] private GameObject eventObject;
+   [SerializeField] private GameObject eventPrefab;
+   [SerializeField] private List<EventUI> events;
 
 
    void Awake()
@@ -18,6 +23,12 @@ public class CalenderPanel : MonoBehaviour
       dayText = GetComponentInChildren<TMP_Text>();
       highlight = transform.Find("Highlight").gameObject;
       background = GetComponent<Image>();
+      events = new List<EventUI>();
+      eventObject = transform.Find("Events").gameObject;
+      events.Add(
+         eventObject.transform.GetChild(0).GetComponent<EventUI>()
+      );
+
    }
 
 
@@ -40,5 +51,20 @@ public class CalenderPanel : MonoBehaviour
    {
       background.color = new Color(1, 1, 1,1);
       dayText.gameObject.SetActive(true);
+   }
+
+   public void AddEvent(Event e)
+   {
+      var newEvent = Instantiate(eventPrefab, eventObject.transform).GetComponent<EventUI>();
+      newEvent.SetEventDetails(e);
+      events.Add(newEvent);
+   }
+
+   public void ClearEvents()
+   {
+      foreach(var e in events)
+      {
+         Destroy(e.gameObject);
+      }
    }
 }

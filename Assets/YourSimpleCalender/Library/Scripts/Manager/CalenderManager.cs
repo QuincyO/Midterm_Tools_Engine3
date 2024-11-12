@@ -60,6 +60,28 @@ namespace Quincy.Calender
             }
         }
 
+
+         public List<Quincy.Calender.Event> GetEventsForMonth(Month? month, int year)
+        {
+
+            List<Quincy.Calender.Event> events = new List<Quincy.Calender.Event>();
+
+            foreach (var e in _eventsByDate.Values)
+            {
+                if (e.startingDate.Month == month && e.startingDate.Year == year)
+                {
+                    events.Add(e);
+                }
+                if (e.startingDate.Month > month && e.startingDate.Year == year)
+                {
+                    break;
+                }   
+            }
+            
+
+            return events;
+        }
+
         public static void SetPause(bool isPaused)
         {
             TimeManager.isPaused = isPaused;

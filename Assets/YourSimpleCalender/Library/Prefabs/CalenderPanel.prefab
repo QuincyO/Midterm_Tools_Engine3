@@ -299,9 +299,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102850a8f847e8149900354eb31c5f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayText: {fileID: 0}
   highlight: {fileID: 0}
   background: {fileID: 0}
+  eventObject: {fileID: 0}
+  eventPrefab: {fileID: 3056227152211489752, guid: 06b3b87b83d2b1543a102c6637c449cc, type: 3}
+  events: []
 --- !u!1 &9016211039382662764
 GameObject:
   m_ObjectHideFlags: 0

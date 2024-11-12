@@ -35,23 +35,28 @@ public class EventUI : MonoBehaviour
             eventImage = childGameObject.GetComponent<Image>();
         }
         else Debug.LogError("Event Image not found");
+
+
     }
 
     public void SetEventDetails(Quincy.Calender.Event eventDetails)
     {
+        if (eventDetails.EventName == "") return;
         this.eventDetails = eventDetails;
 
-        eventName.text = eventDetails.EventName;
+        eventName.text = $"{eventDetails.startingDate.Hours}:{eventDetails.startingDate.Minutes} {eventDetails.EventName}";
 
-        eventImage.sprite = eventDetails.EventIcon.sprite;
+        if (eventDetails.EventIcon == null) eventImage.color = Color.clear;
+        else eventImage.sprite = eventDetails.EventIcon.sprite;
 
-        border.color = borderColor;
+        border.color = eventDetails.EventColor;
     }
+    
+
 
     // Start is called before the first frame update
     void Start()
     {
-        SetEventDetails(eventDetails);
     }
 
     // Update is called once per frame

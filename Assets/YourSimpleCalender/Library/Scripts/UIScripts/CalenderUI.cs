@@ -124,6 +124,24 @@ public class CalenderUI : MonoBehaviour
 
 
         SyncDatesToMonth();
+
+        SyncEventsToDays();
+    }
+
+    private void SyncEventsToDays()
+    {
+        List<Quincy.Calender.Event> eventsThisMonth = CalenderManager.Instance.GetEventsForMonth(focusedDate.Month, focusedDate.Year);
+        foreach (var panel in calenderPanels)
+        {
+            panel.ClearEvents();
+        }
+
+        for (int i = 0; i < eventsThisMonth.Count; i++)
+        {
+            int day = eventsThisMonth[i].startingDate.Day;
+            calenderPanels[day - 1].AddEvent(eventsThisMonth[i]);
+        }
+
     }
 
     private void SetMonthText()
@@ -163,17 +181,5 @@ public class CalenderUI : MonoBehaviour
         UpdateCalenderUI();
     }
 
-    #endregion
-
-
-
-    #region ContextMenu Methods
-    [ContextMenu("Calculate Days")]
-    public void CalcDays()
-    {
-        Date date = new Date(1990, Month.February, 1, 0, 0);
-
-
-    }
     #endregion
 }
