@@ -36,7 +36,7 @@ namespace Quincy.Calender
         [SerializeField] Light2D sun; 
 
 
-        [HideInInspector]public bool IsMilitaryTime = false;
+        [HideInInspector] public bool IsMilitaryTime = false;
 
         public static MyCalender CreateCalender(string calenderName)
         {
@@ -47,6 +47,10 @@ namespace Quincy.Calender
 
         }
 
+        public static void DisplayCalender(MyCalender calender)
+        {
+            
+        }
         public static void AddCalender(MyCalender calender)
         {
             if (_calenders.Contains(calender))
@@ -121,7 +125,6 @@ namespace Quincy.Calender
                 if (intensityCoroutine != null) StopCoroutine(intensityCoroutine);
                 
                 intensityCoroutine = StartCoroutine(TransitionSun(sun.intensity, targetIntensity, TickRate));
-
             }
         }
 
@@ -200,11 +203,6 @@ namespace Quincy.Calender
             }
         }
     }
-    [Serializable]
-    public class WeatherEvents
-    {
-        public string Key;
-        public GameObject weatherPrefab;
-    }
+
 
 }
