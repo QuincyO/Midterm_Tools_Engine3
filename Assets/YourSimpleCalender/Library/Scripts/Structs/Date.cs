@@ -112,10 +112,22 @@ namespace Quincy.Calender
         public string FormattedMinutes => Minutes.ToString("D2");
         public string FormattedDay => Day.ToString("D2");
         public string FormattedYear => Year.ToString("D4");
+
+        public float TotalMinutes { 
+            get
+                {
+                    return _hour * 60 + Minutes;
+                }
+                
+            set 
+                {
+
+                }
+        }
         #endregion
-        
+
         #region Constructors
-        
+
         public Date(int year, Month month, int day,int hours,int minutes) : this()
         {
             Year = year;

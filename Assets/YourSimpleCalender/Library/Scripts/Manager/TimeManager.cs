@@ -30,15 +30,19 @@ namespace Quincy.Calender
 
             TimeManager.OnTick += Tick;
             Date.isMilitaryTime = IsMilitaryTime;
-            TimeManager.SetTickRate(TickRate);
             CurrentDate = StartingDate;
             _lastProcessedDate = CurrentDate;
-            TimeManager.Initialize();
+            TimeManager.Initialize(TickRate);
 
             foreach (var weatherEvent in weatherPrefabs)
             {
                 Weather.Add(weatherEvent.Key, weatherEvent.weatherPrefab);
             }
+        }
+
+        private void OnDestroy()
+        {
+            TimeManager.OnTick -= Tick;
         }
     }
     
@@ -60,12 +64,11 @@ namespace Quincy.Calender
                 DontDestroyOnLoad(timeManager);
 
                 TickRate = tickRate;
-                Debug.Log("TimeManager has been initialized");
                 return true;
             }
             else
             {
-                Debug.Log("TimeManager already initialized");
+                Debug.LogWarning("TimeManager already initialized");
                 return false;
             }
         }

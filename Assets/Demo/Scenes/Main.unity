@@ -2232,16 +2232,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartingDate:
-    _hour: 23
+    _hour: 21
     minutes: 45
     _isMorning: 0
     _year: 1998
     _month: 1
     _day: 14
   weatherPrefabs: []
-  TimeStepInMinutes: 1
-  TickRate: 1
+  TimeStepInMinutes: 60
+  TickRate: 0.2
   sun: {fileID: 1191923913}
+  transitionDuration: 1
   IsMilitaryTime: 0
 --- !u!1001 &3821531933616031403
 PrefabInstance:

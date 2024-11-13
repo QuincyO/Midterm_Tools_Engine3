@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -19,6 +20,8 @@ namespace Quincy.Calender
         public static event Action<Date> OnNewDay;
         public static event Action OnTimeChanged;
 
+        public Coroutine intensityCoroutine;
+
         [Header("Calender Settings")]
         [Tooltip("The Date the the calender will start at, Must be set in hours from 0-23")]
         [SerializeField] public Date StartingDate;
@@ -34,8 +37,6 @@ namespace Quincy.Calender
 
 
         [HideInInspector]public bool IsMilitaryTime = false;
- 
-
 
         public static MyCalender CreateCalender(string calenderName)
         {
@@ -97,17 +98,48 @@ namespace Quincy.Calender
             TimeManager.isPaused = isPaused;
         }
 
-        private void AdvanceCurrentDate()
+        private void AdvanceCurrentTime()
         {
             CurrentDate = CurrentDate.AddMinutes(TimeStepInMinutes);
             OnTimeChanged?.Invoke();
-            Debug.Log(CurrentDate);
+
+        if (sun != null)
+            {
+                float maxIntensity = 1.0f;
+                float minIntensity = 0.05f;
+                float targetIntensity;
+
+                if (CurrentDate.TotalMinutes < 720) // Morning: 0 to 720 minutes (midday)
+                {
+                    targetIntensity = Mathf.Lerp(minIntensity, maxIntensity, Mathf.InverseLerp(0, 720, CurrentDate.TotalMinutes));
+                }
+                else // Afternoon to Midnight: 720 to 1440 minutes
+                {
+                    targetIntensity = Mathf.Lerp(maxIntensity, minIntensity, Mathf.InverseLerp(720, 1440, CurrentDate.TotalMinutes));
+                }
+                
+                if (intensityCoroutine != null) StopCoroutine(intensityCoroutine);
+                
+                intensityCoroutine = StartCoroutine(TransitionSun(sun.intensity, targetIntensity, TickRate));
+
+            }
+        }
+
+        private IEnumerator TransitionSun(float start, float end, float duration)
+        {
+            float time = 0;
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                sun.intensity = Mathf.Lerp(start, end, time / duration);
+                yield return null;
+            }
         }
 
 
         private void Tick()
         {
-            AdvanceCurrentDate();
+            AdvanceCurrentTime();
             
             PrepareEventsForToday();
 
