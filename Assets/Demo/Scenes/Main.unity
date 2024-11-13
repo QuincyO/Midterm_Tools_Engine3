@@ -1353,6 +1353,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CalenderUI
       objectReference: {fileID: 0}
+    - target: {fileID: 5146296351169328536, guid: 160cff6492bb9b84e98f4e3a7aa1391f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5200335936376207386, guid: 160cff6492bb9b84e98f4e3a7aa1391f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2239,10 +2243,9 @@ MonoBehaviour:
     _month: 1
     _day: 14
   weatherPrefabs: []
-  TimeStepInMinutes: 60
-  TickRate: 0.2
+  TimeStepInMinutes: 360
+  TickRate: 10
   sun: {fileID: 1191923913}
-  transitionDuration: 1
   IsMilitaryTime: 0
 --- !u!1001 &3821531933616031403
 PrefabInstance:
