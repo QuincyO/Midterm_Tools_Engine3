@@ -21,10 +21,6 @@ public class Movement2D : MonoBehaviour, ICalenderAttendee
     [Range(0f, 100f)]
     public float moveSpeed = 6;
 
-    public void AddSelfToEvent(Event Event)
-    {
-        Event.AddAttendee(this);
-    }
 
     public void OnNotify(Event @event)
     {
@@ -40,8 +36,11 @@ public class Movement2D : MonoBehaviour, ICalenderAttendee
 
         MyCalender calender = GetComponent<MyCalender>();
 
-        AddSelfToEvent(calender.GetEvent("Philips Birthday"));
+        //AddSelfToEvent(calender.GetEvent("Philips Birthday"));
+
+        calender.ListenToEvent("Philips Birthday", this);
     }
+
     
     // Update is called once per frame
     void Update()

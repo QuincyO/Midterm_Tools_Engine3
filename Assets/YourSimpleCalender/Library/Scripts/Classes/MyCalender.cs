@@ -93,5 +93,16 @@ namespace Quincy.Calender
             events.Remove(e);
             CalenderManager.SortEvents();
         }
+
+        public void ListenToEvent(string eventName, ICalenderAttendee attendee)
+        {
+            Event e = GetEvent(eventName);
+            if (e == null)
+            {
+                Debug.LogWarning("Event not found");
+                return;
+            }
+            e.AddAttendee(attendee);
+        }
     }
 }
