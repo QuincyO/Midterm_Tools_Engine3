@@ -25,6 +25,8 @@ namespace Quincy.Calender
         
         public UnityAction<string> OnEvent;
 
+        public List<EffectScript> EventEffects = new List<EffectScript>();
+
         public Color EventColor { get; set; }
 
         public List<ICalenderAttendee> _attendees;
@@ -34,15 +36,7 @@ namespace Quincy.Calender
 
         #region Boilerplate
         
-        public void RegisterFunction(UnityAction<string> notify)
-        {
-            OnEvent += notify;
-        }
 
-        public void UnregisterFunction(UnityAction<string> notify)
-        {
-            OnEvent -= notify;
-        }
 
         public void AddAttendee(ICalenderAttendee calenderAttendee)
         {
@@ -79,6 +73,7 @@ namespace Quincy.Calender
             startingDate = MyCalender.CurrentDate;
             endDate = null;
             EventIcon = null;
+            EventEffects = new List<EffectScript>();
 
         }
 
@@ -90,8 +85,11 @@ namespace Quincy.Calender
             _attendees = new List<ICalenderAttendee>();
             EventColor = scriptable.eventColor;
             EventIcon = scriptable.eventIcon;
-
-
+            foreach (var effect in scriptable.eventEffects)
+            {
+                if (effect == null) continue;
+                EventEffects.Add(effect.GetComponent<EffectScript>());
+            }
         }
 
 
@@ -109,12 +107,17 @@ namespace Quincy.Calender
             EventName = eventName;
             _attendees = new List<ICalenderAttendee>();
             EventIcon = null;
+            EventEffects = new List<EffectScript>();
         }
         #endregion
 
-        public void NotifyAttendees()
+        public void TriggerEvent()
         {
             OnEvent?.Invoke(EventName);
+            foreach (var effect in EventEffects)
+            {
+                effect.TriggerEffect();
+            }
             foreach (var attendee in _attendees)
             {
                 attendee.OnNotify(this);

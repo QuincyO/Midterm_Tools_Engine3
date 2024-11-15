@@ -14,14 +14,6 @@ namespace Quincy.Calender
         /// <param name="Event">Event you want to subsribe to </param>
         public void AddSelfToEvent(Event Event);
     
-        /// <summary>
-        /// Remove yourself from this event
-        /// </summary>
-        /// <param name="Event"></param>
-        public void RemoveSelfFromEvent(Event Event);
-
-
-
         void OnNotify(Event @event);
     }
 

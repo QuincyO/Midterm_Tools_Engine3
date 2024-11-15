@@ -28,6 +28,9 @@ namespace Quincy.Calender
         [SerializeField] public List<WeatherEvents> weatherPrefabs = new List<WeatherEvents>(); //This is just so I can add weather events in the inspector
         [SerializeField] public static Dictionary<string,GameObject> Weather = new Dictionary<string, GameObject>();
 
+        [SerializeField] public GameObject CalenderUIPrefab;
+        [SerializeField] public bool AdminControls;
+
         
         
         [Space][Header("Time Settings")]
@@ -37,6 +40,19 @@ namespace Quincy.Calender
 
 
         [HideInInspector] public bool IsMilitaryTime = false;
+
+        public static MyCalender GetCalender(string calenderName)
+        {
+            foreach (MyCalender calender in _calenders)
+            {
+                if (calender.CalenderName == calenderName)
+                {
+                    return calender;
+                }
+            }
+            Debug.LogWarning("Calender not found");
+            return null;
+        }
 
         public static MyCalender CreateCalender(string calenderName)
         {
@@ -49,8 +65,22 @@ namespace Quincy.Calender
 
         public static void DisplayCalender(MyCalender calender)
         {
-            
+            if (Instance.CalenderUIPrefab == null)
+            {
+                Debug.LogError("Calender UI Prefab is not set in the Calender Manager");
+                return;
+            }
+            if (FindObjectOfType<CalenderUI>() != null)
+            {
+                Debug.LogWarning("Calender UI already exists in the scene");
+                return;
+            }
+            GameObject calUI = Instantiate(Instance.CalenderUIPrefab);
+            calUI.name = calender.CalenderName + "UI";
+            calUI.GetComponentInChildren<CalenderUI>().SetCalender(calender);
+
         }
+
         public static void AddCalender(MyCalender calender)
         {
             if (_calenders.Contains(calender))
@@ -59,11 +89,11 @@ namespace Quincy.Calender
                 return;
             }
             _calenders.AddLast(calender);
-            UpdateManager();
+            SortEvents();
 
         }
 
-        public static void UpdateManager()
+        public static void SortEvents()
         {
             foreach (var calender in _calenders)
             {
@@ -76,33 +106,23 @@ namespace Quincy.Calender
         }
 
 
-         public List<Quincy.Calender.Event> GetEventsForMonth(Month month, int year)
-        {
-
-            List<Quincy.Calender.Event> events = new List<Quincy.Calender.Event>();
-
-            foreach (var e in _eventsByDate.Values)
-            {
-                if (e.startingDate.Month == month && e.startingDate.Year == year)
-                {
-                    events.Add(e);
-                }
-                if (e.startingDate.Month > month && e.startingDate.Year == year)
-                {
-                    break;
-                }   
-            }
-            
-
-            return events;
-        }
+        
 
         public static void SetPause(bool isPaused)
         {
             TimeManager.isPaused = isPaused;
         }
 
-        private void AdvanceCurrentTime()
+        public static void SetTimeStep(int minutes)
+        {
+            Instance.TimeStepInMinutes = minutes;
+        }
+
+        public static void SetTickRate(float rate)
+        {
+            TimeManager.SetTickRate(rate);
+        }
+        public void AdvanceCurrentTime()
         {
             CurrentDate = CurrentDate.AddMinutes(TimeStepInMinutes);
             OnTimeChanged?.Invoke();
@@ -197,7 +217,7 @@ namespace Quincy.Calender
             {
                 if (CurrentDate >= Event.Key)
                 {
-                    Event.Value.NotifyAttendees();
+                    Event.Value.TriggerEvent();
                     _eventsToRemove.AddLast(Event.Key);
                 }
             }

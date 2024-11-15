@@ -12,12 +12,14 @@ public class CalenderUI : MonoBehaviour
     [SerializeField] private TMP_Text monthText;
     [SerializeField] private TMP_Text yearText;
 
-    [SerializeField] private Button nextButton, previousButton;
+    [SerializeField] private Button nextButton, previousButton,exitButton;
 
     [SerializeField] private Date focusedDate;
 
     [SerializeField] CalenderPanel[] calenderPanels;
     [SerializeField]private TMP_Text timeText;
+
+    [SerializeField] public MyCalender calender;
 
     void Awake()
     {
@@ -68,9 +70,14 @@ public class CalenderUI : MonoBehaviour
                 previousButton = button;
                 continue;
             }
+            else if (button.name == "ExitButton")
+            {
+                exitButton = button;
+                continue;
+            }
 
 
-            if (nextButton != null && previousButton != null)
+            if (nextButton != null && previousButton != null && exitButton != null)
             {
                 break;
             }
@@ -83,12 +90,12 @@ public class CalenderUI : MonoBehaviour
 
         for (int i = 0; i < calenderPanels.Length; i++)
         {
-            calenderPanels[i].SetHighlight(false);
             calenderPanels[i].name = $"Panel: {i+1}";
         }
         #endregion
 
     }
+
     
 
     private void OnEnable() {
@@ -112,8 +119,11 @@ public class CalenderUI : MonoBehaviour
 
     void Start()
     {
+
+
         nextButton.onClick.AddListener(GoNextMonth);
         previousButton.onClick.AddListener(GoPreviousMonth);
+        exitButton.onClick.AddListener(() => Destroy(this.gameObject.transform.parent.gameObject.transform.parent.gameObject));
         focusedDate = CalenderManager.Instance.CurrentDate;
         SetTimeText();
         UpdateCalenderUI();
@@ -166,7 +176,11 @@ public class CalenderUI : MonoBehaviour
 
     private void SyncEventsToDays()
     {
-        List<Quincy.Calender.Event> eventsThisMonth = CalenderManager.Instance.GetEventsForMonth(focusedDate.Month, focusedDate.Year);
+        if (calender == null)
+        {
+            return;
+        }
+        List<Quincy.Calender.Event> eventsThisMonth = calender.GetEventsForMonth(focusedDate.Month, focusedDate.Year);
         foreach (var panel in calenderPanels)
         {
             panel.ClearEvents();
@@ -231,6 +245,11 @@ public class CalenderUI : MonoBehaviour
         Date previousMonth = focusedDate.AddMonths(-1);
         focusedDate = previousMonth;
         UpdateCalenderUI();
+    }
+
+    internal void SetCalender(MyCalender calender)
+    {
+        this.calender = calender;
     }
 
     #endregion

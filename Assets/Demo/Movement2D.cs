@@ -10,7 +10,7 @@ using Event = Quincy.Calender.Event;
 // This is an Attribute in C#, specifically it is one defined by the...
 // Unity API called RequireComponent which means this component cannot exist on a...
 // GameObject without the other required component type
-public class Movement2D : MonoBehaviour
+public class Movement2D : MonoBehaviour, ICalenderAttendee
 {
     [SerializeField] // SerializeField is an attribute which says that this variable can be saved,
                      // and will be saved in the scene
@@ -21,19 +21,28 @@ public class Movement2D : MonoBehaviour
     [Range(0f, 100f)]
     public float moveSpeed = 6;
 
+    public void AddSelfToEvent(Event Event)
+    {
+        Event.AddAttendee(this);
+    }
+
+    public void OnNotify(Event @event)
+    {
+        Debug.Log($"I have been notified of the event {@event.EventName}");
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Event e = new Event();
-        RegisterNotify(e,PlaySound);
+
+        MyCalender calender = GetComponent<MyCalender>();
+
+        AddSelfToEvent(calender.GetEvent("Philips Birthday"));
     }
     
-    public void PlaySound(Event e)
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -47,29 +56,14 @@ public class Movement2D : MonoBehaviour
 
         Vector3 position;
         position.x = 1;
-    }
-
-    public void AddSelfToEvent(Event Event)
-    {
-    }
-
-    public void RemoveSelfFromEvent(Event Event)
-    {
-    }
-
-    public void RegisterNotify(Event Event, UnityAction<Event> notify)
-    {
-      //  Event.RegisterFunction(notify);
-    }
 
 
-    public void UnregisterNotify(Event Event, UnityAction<Event> notify)
-    {
-        //Event.UnregisterFunction(notify);
-    }
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            //MyCalender calender = CalenderManager.GetCalender("Weather Calendar");
+            MyCalender calender = GetComponent<MyCalender>();
 
-    public void OnNotify()
-    {
-        throw new NotImplementedException();
+            CalenderManager.DisplayCalender(calender);
+        }
     }
 }
