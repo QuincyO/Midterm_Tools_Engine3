@@ -29,7 +29,7 @@ namespace Quincy.Calender
 
         public List<ICalenderAttendee> _attendees;
 
-        public Image EventIcon;
+        public Sprite EventIcon;
 
 
         #region Boilerplate
@@ -78,6 +78,7 @@ namespace Quincy.Calender
             EventColor = Color.white; 
             startingDate = MyCalender.CurrentDate;
             endDate = null;
+            EventIcon = null;
 
         }
 
@@ -88,6 +89,8 @@ namespace Quincy.Calender
             EventName = scriptable.eventName;
             _attendees = new List<ICalenderAttendee>();
             EventColor = scriptable.eventColor;
+            EventIcon = scriptable.eventIcon;
+
 
         }
 
@@ -105,6 +108,7 @@ namespace Quincy.Calender
             EventColor = eventColor;
             EventName = eventName;
             _attendees = new List<ICalenderAttendee>();
+            EventIcon = null;
         }
         #endregion
 

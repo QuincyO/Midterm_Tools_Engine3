@@ -21,6 +21,4 @@ MonoBehaviour:
     _year: 1998
     _month: 1
     _day: 26
-  OnEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  eventIcon: {fileID: -1858572412, guid: 17486f1a5967b0844998d2a48fa0c24c, type: 3}

@@ -13,6 +13,8 @@ namespace Quincy.Calender
         public Color eventColor = Color.white;
 
         public Date StartDate;
+
+        public Sprite eventIcon;
     }
     
 }

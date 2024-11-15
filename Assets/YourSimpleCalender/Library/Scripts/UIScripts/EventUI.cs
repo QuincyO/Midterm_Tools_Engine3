@@ -49,8 +49,14 @@ public class EventUI : MonoBehaviour
          $"{date.FormattedHour}:{date.FormattedMinutes}{date.Period} " +
          $"{eventDetails.EventName}";
 
-        if (eventDetails.EventIcon == null) eventImage.color = Color.clear;
-        else eventImage.sprite = eventDetails.EventIcon.sprite;
+        if (eventDetails.EventIcon == null)
+        {
+            eventImage.color = Color.clear;
+        }
+        else
+        {
+            eventImage.sprite = eventDetails.EventIcon;
+        }
 
         border.color = eventDetails.EventColor;
     }

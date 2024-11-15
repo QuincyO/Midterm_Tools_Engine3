@@ -15,21 +15,10 @@ MonoBehaviour:
   eventName: Quincys Birthday
   eventColor: {r: 1, g: 1, b: 1, a: 1}
   StartDate:
-    isMilitaryTime: 0
     _hour: 0
     minutes: 0
     _isMorning: 0
     _year: 1998
     _month: 1
     _day: 29
-  EndDate:
-    isMilitaryTime: 0
-    _hour: 0
-    minutes: 0
-    _isMorning: 0
-    _year: 0
-    _month: 0
-    _day: 0
-  OnEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  eventIcon: {fileID: 42794234, guid: e962e1c3632752d4fbb09094a7d45e3f, type: 3}
