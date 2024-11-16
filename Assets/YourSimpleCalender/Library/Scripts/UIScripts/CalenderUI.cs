@@ -93,6 +93,8 @@ public class CalendarUI : MonoBehaviour
             calenderPanels[i].name = $"Panel: {i + 1}";
         }
         #endregion
+
+        focusedDate = CalendarManager.Instance.CurrentDate;
     }
 
     /// <summary>

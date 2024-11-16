@@ -323,8 +323,13 @@ namespace Quincy.Calender
             return $"Date: {Year:D4}-{(int)Month:D2}-{Day:D2}  Time:{Hours:D2}:{Minutes:D2} {Period.ToUpper()}";
 
         }
+
+        internal bool isValid()
+        {
+            return _year > 0 && (_month >= Month.January || _month <= Month.December) && _day > 0 && _day <= MaxDays && _hour >= 0 && _hour < 24 && minutes >= 0 && minutes < 60;
+        }
         #endregion
-        
+
         #region Operator Overloads
 
         public static bool operator >(Date left, Date right)

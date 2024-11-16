@@ -13,7 +13,6 @@ namespace Quincy.Calender
     {
         public bool EndDateTriggers = false;
         public Date startingDate;
-        public Date? endDate;
 
         [SerializeField] public string EventName;
 
@@ -56,25 +55,7 @@ namespace Quincy.Calender
             _attendees.Remove(calenderAttendee);
         }
 
-        /// <summary>
-        /// Adds an end date to the event.
-        /// </summary>
-        /// <param name="date">The end date to set.</param>
-        internal void AddEndDate(Date date)
-        {
-            EndDateTriggers = true;
-            endDate = date;
-        }
 
-        /// <summary>
-        /// Removes the end date from the event.
-        /// </summary>
-        /// <param name="date">The end date to remove.</param>
-        internal void RemoveEndDate(Date date)
-        {
-            EndDateTriggers = false;
-            endDate = null;
-        }
 
         #endregion
 
@@ -89,7 +70,6 @@ namespace Quincy.Calender
             _attendees = new List<ICalendarListener>();
             EventColor = Color.white;
             startingDate = MyCalendar.CurrentDate;
-            endDate = null;
             EventIcon = null;
             EventEffectsPrefabs = new List<GameObject>();
         }
@@ -119,10 +99,9 @@ namespace Quincy.Calender
         /// <param name="eventName">The name of the event.</param>
         /// <param name="endDate">Optional end date of the event.</param>
         /// <param name="eventColor">The color associated with the event UI.</param>
-        public Event(Date date, string eventName, Date? endDate = null, Color eventColor = default)
+        public Event(Date date, string eventName, Color eventColor = default)
         {
             startingDate = date;
-            this.endDate = endDate;
             EventColor = eventColor;
             EventName = eventName;
             _attendees = new List<ICalendarListener>();

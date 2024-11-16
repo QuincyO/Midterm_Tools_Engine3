@@ -7,46 +7,7 @@ using UnityEngine;
 namespace Quincy.Calender
 {
 
-    public partial class CalendarManager
-    {
 
-
-
-        public static CalendarManager Instance { get; private set; }
-
-
-        private void Awake()
-        {
-            if(Instance != null && Instance != this)
-            {
-                Destroy(this.gameObject);
-                return;
-            }
-            else
-            {
-                Instance = this;
-                DontDestroyOnLoad(this.gameObject);
-            }
-
-            TimeManager.OnTick += Tick;
-            Date.isMilitaryTime = IsMilitaryTime;
-            CurrentDate = StartingDate;
-            _lastProcessedDate = CurrentDate;
-            TimeManager.Initialize(TickRate);
-            OnNewDay += DestroyPassedEventsEffects;
-            
-
-            foreach (var weatherEvent in weatherPrefabs)
-            {
-                Weather.Add(weatherEvent.Key, weatherEvent.weatherPrefab);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            TimeManager.OnTick -= Tick;
-        }
-    }
     
     public class TimeManager : MonoBehaviour
     {

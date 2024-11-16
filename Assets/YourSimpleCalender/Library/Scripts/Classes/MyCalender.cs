@@ -108,9 +108,9 @@ namespace Quincy.Calender
         /// <param name="eventStartDate">The start date of the event.</param>
         /// <param name="eventEndDate">The optional end date of the event.</param>
         /// <param name="color">The color associated with the event.</param>
-        public void AddEvent(string eventName, Date eventStartDate, Date? eventEndDate = null, Color color = default)
+        public void AddEvent(string eventName, Date eventStartDate, Color color = default)
         {
-            events.AddLast(new Event(eventStartDate, eventName, eventEndDate, color));
+            events.AddLast(new Event(eventStartDate, eventName, color));
             CalendarManager.SortEvents();
         }
 

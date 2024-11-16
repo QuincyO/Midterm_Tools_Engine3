@@ -66,17 +66,7 @@ namespace Quincy.Calender
         [SerializeField]
         public Date StartingDate;
 
-        /// <summary>
-        /// List of weather event prefabs that can be added via the inspector.
-        /// </summary>
-        [SerializeField]
-        public List<WeatherEvents> weatherPrefabs = new List<WeatherEvents>();
 
-        /// <summary>
-        /// Dictionary mapping weather event names to their corresponding GameObject prefabs.
-        /// </summary>
-        [SerializeField]
-        public static Dictionary<string, GameObject> Weather = new Dictionary<string, GameObject>();
 
         /// <summary>
         /// The prefab used to display the calendar UI.
@@ -107,6 +97,47 @@ namespace Quincy.Calender
         /// </summary>
         [HideInInspector]
         public bool IsMilitaryTime = false;
+
+
+            
+
+
+        public static CalendarManager Instance { get; private set; }
+
+
+        private void Awake()
+        {
+            if(Instance != null && Instance != this)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+            else
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+
+            TimeManager.OnTick += Tick;
+            Date.isMilitaryTime = IsMilitaryTime;
+            if (!StartingDate.isValid())
+            {
+                Debug.LogError("Starting Date not set");
+                StartingDate = new Date(1,Month.January,1,1,1);
+            }
+            CurrentDate = StartingDate;
+            _lastProcessedDate = CurrentDate;
+            TimeManager.Initialize(TickRate);
+            OnNewDay += DestroyPassedEventsEffects;
+            
+
+
+        }
+
+        private void OnDestroy()
+        {
+            TimeManager.OnTick -= Tick;
+        }
 
         /// <summary>
         /// Retrieves a calendar by its name.

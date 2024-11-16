@@ -38,7 +38,6 @@ public class Movement2D : MonoBehaviour, ICalendarListener
 
         calender.ListenToEvent("Philips Birthday", this);
 
-        CalendarManager.DisplayCalender(calender);
         
     }
 
