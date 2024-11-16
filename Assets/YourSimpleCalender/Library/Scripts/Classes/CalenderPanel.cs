@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Event = Quincy.Calender.Event;
 
-public class CalenderPanel : MonoBehaviour
+public class CalendarPanel : MonoBehaviour
 {
    // [SerializeField] private TextMeshProUGUI _monthText;
 

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Quincy.Calender
 {
-    public interface ICalenderAttendee
+    public interface ICalendarListener
     {   
         void OnNotify(Event @event);
     }

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace Quincy.Calender
 {
-    public class CalenderAttendeeComponent : MonoBehaviour, ICalenderAttendee
+    public class CalenderAttendeeComponent : MonoBehaviour, ICalendarListener
     {
         [SerializeField]private GameObject owner;
 

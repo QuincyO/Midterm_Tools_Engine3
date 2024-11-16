@@ -7,12 +7,12 @@ using UnityEngine;
 namespace Quincy.Calender
 {
 
-    public partial class CalenderManager
+    public partial class CalendarManager
     {
 
 
 
-        public static CalenderManager Instance { get; private set; }
+        public static CalendarManager Instance { get; private set; }
 
 
         private void Awake()

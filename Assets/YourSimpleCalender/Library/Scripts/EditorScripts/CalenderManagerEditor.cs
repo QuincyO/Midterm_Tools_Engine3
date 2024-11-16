@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using Quincy.Calender; // Ensure this matches your namespace
 
-[CustomEditor(typeof(CalenderManager))]
+[CustomEditor(typeof(CalendarManager))]
 [CanEditMultipleObjects]
 public class CalendarManagerEditor : Editor
 {
@@ -35,8 +35,8 @@ public override void OnInspectorGUI()
         // If the methods are static, call them with the class name
         foreach (Object obj in targets)
         {
-            CalenderManager.SetTickRate(tickRateProp.floatValue);
-            CalenderManager.SetTimeStep(timeStepProp.intValue);
+            CalendarManager.SetTickRate(tickRateProp.floatValue);
+            CalendarManager.SetTimeStep(timeStepProp.intValue);
         }
     }
 
