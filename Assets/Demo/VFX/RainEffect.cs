@@ -6,6 +6,7 @@ public class RainEffect : EffectScript
 {
     public override void TriggerEffect()
     {
-        Debug.Log("This Plays From RainEffect Prefab!");
+       Debug.Log("Rain Effect Triggered");
     }
+    
 }

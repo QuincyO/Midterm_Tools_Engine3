@@ -10,7 +10,7 @@ using Event = Quincy.Calender.Event;
 // This is an Attribute in C#, specifically it is one defined by the...
 // Unity API called RequireComponent which means this component cannot exist on a...
 // GameObject without the other required component type
-public class Movement2D : MonoBehaviour, ICalendarListener
+public class Movement2D : MonoBehaviour,ICalendarListener
 {
     [SerializeField] // SerializeField is an attribute which says that this variable can be saved,
                      // and will be saved in the scene
@@ -21,11 +21,12 @@ public class Movement2D : MonoBehaviour, ICalendarListener
     [Range(0f, 100f)]
     public float moveSpeed = 6;
 
-
     public void OnNotify(Event @event)
     {
-        Debug.Log($"I have been notified of the event {@event.EventName}");
+        Debug.Log("Event: " + @event.EventName + " has been triggered");
     }
+
+
 
 
     // Start is called before the first frame update
@@ -33,12 +34,8 @@ public class Movement2D : MonoBehaviour, ICalendarListener
     {
         rb = GetComponent<Rigidbody2D>();
 
-        MyCalendar calender = GetComponent<MyCalendar>();
+        //MyCalendar calendar = GetComponent<MyCalendar>();
 
-
-        calender.ListenToEvent("Philips Birthday", this);
-
-        
     }
 
     

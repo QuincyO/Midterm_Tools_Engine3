@@ -4998,7 +4998,7 @@ GameObject:
   - component: {fileID: 5056951705168689870}
   - component: {fileID: 5056951705168689864}
   - component: {fileID: 5056951705168689865}
-  - component: {fileID: 6500124297085767348}
+  - component: {fileID: -1342530961460935450}
   m_Layer: 0
   m_Name: Rain
   m_TagString: Untagged
@@ -9840,7 +9840,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6500124297085767348
+--- !u!114 &-1342530961460935450
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9849,6 +9849,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5056951705168689871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a6a25923f9904d4d827bab81931caa9, type: 3}
+  m_Script: {fileID: 11500000, guid: d90a76d1393c4574bb73c1b3a348764a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

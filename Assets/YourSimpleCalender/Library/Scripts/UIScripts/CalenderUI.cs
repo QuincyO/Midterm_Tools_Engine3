@@ -151,7 +151,6 @@ public class CalendarUI : MonoBehaviour
         Date firstOfMonth = new Date(focusedDate.Year, focusedDate.Month, 1, 0, 0);
         int startDayOffset = (int)firstOfMonth.DayOfWeek();
 
-        //TODO: Show upcoming events on the calendar
 
         for (int i = 0; i < calenderPanels.Length; i++)
         {

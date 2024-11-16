@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 875ef59b3c7194844aec88d4b974835f, type: 3}
-  m_Name: PhilipsBDay
+  m_Name: New Scriptable Object Event
   m_EditorClassIdentifier: 
-  eventName: Philips Birthday
-  eventColor: {r: 0, g: 1, b: 0.12997723, a: 1}
+  eventName: Alexs Birthday
+  eventColor: {r: 1, g: 0, b: 0, a: 1}
   StartDate:
     _hour: 0
     minutes: 30
     _year: 1998
     _month: 1
     _day: 15
-  eventIcon: {fileID: -1004033788, guid: 17486f1a5967b0844998d2a48fa0c24c, type: 3}
+  eventIcon: {fileID: 1136548166, guid: e962e1c3632752d4fbb09094a7d45e3f, type: 3}
   eventEffectsPrefab:
-  - {fileID: 7271497718951143484, guid: f2b89aa65e0104b44a141b18caebb767, type: 3}
   - {fileID: 5056951705168689871, guid: b2f3511f2f65c45428b60588d98440e1, type: 3}
