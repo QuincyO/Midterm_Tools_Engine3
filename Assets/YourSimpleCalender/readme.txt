@@ -47,31 +47,86 @@ YourSimpleCalendar is a Unity-based calendar system designed to manage events, t
 You can add events to the calendar using either event details or a `KeyDate` object.
 
 - **Using Event Details**
+    ```cs
     myCalendar.AddEvent("Event Name", new Date(month, day, year), endDate, Color.red);
+    ```
 
 
 - **Using KeyDate**
+1.  `RightCLick > Create > Scriptable Object Event`
+2.  Fill In  
+    a)  `Event Name`  
+    b)  `Event Color`  
+    c)  `Start Date`  
+    d)  `Event Icon`  
+    e)  add any `Effect Prefabs`  
+    
+3. If Calendar is attached to game object in hierarchy, add Created Scriptable Object to List of Events. If Calendar is created in code you can add it as
+```cs
+myCalendar.AddEvent(ScriptableObjectEvent);
+```
 
-    KeyDate keyDate = new KeyDate(/* initialize properties */);
-    myCalendar.AddEvent(keyDate);
+
+### Subsribe To Events
+
+You can subsribe to events through code or creating a custom effect using a keydate.
+
+- **Subscribing Manually Through Code**
+1. Create a custom script and have it implement
+```cs 
+ICalendarListener
+```
+
+2. Implement the logic you want to occur when the event triggers
+3. Anytime Before the Event Occurs you need to set the script to listen for the event.
+```cs
+MyCalendar calendar = CalendarManager.GetCalendar("CalendarName");
+
+calendar.ListenToEvent("EventName",this);
+//or 
+calender.ListenToAllEvents(this);
+```
+4. When the event triggers this will get called
+```cs 
+public void OnNotify(Quincy.Calendar.Event @event)
+{
+    //Your Implemented Logic
+}
+```
+
+
+- **Creating a Custom Effect to trigger**
+1. Create a Custom Script that derives from `EffectScript`
+2. Override and implement your logic inside 
+```cs
+public override void TriggerEffect()
+{
+    //Your Implemented Logic
+}
+```
+3. Attach this script to a game object
+4. Add this GameObject to the `KeyDate` scriptable Objects
 
 
 ### Managing Time
 
 - **Set Time Step**
-
+    ```cs
     CalendarManager.SetTimeStep(5); // Advances time by 5 minutes each tick
+    ```
 
 
 - **Pause/Resume Time**
-
+    ```cs
     CalendarManager.SetPause(true); // Pauses time
     CalendarManager.SetPause(false); // Resumes time
+    ```
 
 
 - **Set Tick Rate**
-
+    ```cs
     CalendarManager.SetTickRate(2.0f); // Sets the tick rate
+    ```
 
 ### Navigating the Calendar UI
 
