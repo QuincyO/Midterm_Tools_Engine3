@@ -14,7 +14,8 @@ YourSimpleCalendar is a Unity-based calendar system designed to manage events, t
 
 1. **Clone the Repository**
   
-  clone https://github.com/QuincyO/Midterm_Tools_Engine3
+    Clone the repository
+
 2. **Import into Unity**
     - Open your Unity project.
     - Go to `Assets > Import Package > Custom Package`.
@@ -129,19 +130,7 @@ You can add events to the calendar using either event details or a `KeyDate` obj
 
 1. Fork the repository.
 2. Create a new branch:
-    ```bash
-    git checkout -b feature/YourFeature
-    ```
 3. Commit your changes:
-    ```bash
-    git commit -m "Add your feature"
-    ```
 4. Push to the branch:
-    ```bash
-    git push origin feature/YourFeature
-    ```
 5. Open a Pull Request.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
