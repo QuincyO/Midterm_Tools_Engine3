@@ -16,24 +16,25 @@ namespace Quincy.Calender
 
         public Sprite eventIcon;
 
-        public List<GameObject> eventEffects = new List<GameObject>();
+        public List<GameObject> eventEffectsPrefab = new List<GameObject>();
+
 
         private void OnValidate() {
-            if (eventEffects.Count == 0)
+            if (eventEffectsPrefab.Count == 0)
             {
                 return;
             }
 
-            for(int i = 0; i < eventEffects.Count;i++)
+            for(int i = 0; i < eventEffectsPrefab.Count;i++)
             {
-                if (eventEffects[i] == null) {continue;}
-                if (!eventEffects[i].TryGetComponent<EffectScript>(out var effect)) {
-                    Debug.LogWarning("Effect Script not found on " + eventEffects[i].name + " Removing from list");
-                    eventEffects.Remove(eventEffects[i]);
+                if (eventEffectsPrefab[i] == null) {continue;}
+                if (!eventEffectsPrefab[i].TryGetComponent<EffectScript>(out var effect)) {
+
+                    Debug.LogWarning("Effect Script not found on " + eventEffectsPrefab[i].name + " Removing from list");
+                    eventEffectsPrefab.Remove(eventEffectsPrefab[i]);
                     i--;
             }
         }
     }
-    
     }
 }

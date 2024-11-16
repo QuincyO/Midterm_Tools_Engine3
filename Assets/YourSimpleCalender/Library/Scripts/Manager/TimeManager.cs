@@ -33,6 +33,8 @@ namespace Quincy.Calender
             CurrentDate = StartingDate;
             _lastProcessedDate = CurrentDate;
             TimeManager.Initialize(TickRate);
+            OnNewDay += DestroyPassedEventsEffects;
+            
 
             foreach (var weatherEvent in weatherPrefabs)
             {

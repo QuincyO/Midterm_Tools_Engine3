@@ -17,8 +17,10 @@ MonoBehaviour:
   StartDate:
     _hour: 0
     minutes: 0
-    _isMorning: 0
     _year: 1998
     _month: 1
     _day: 26
   eventIcon: {fileID: -1858572412, guid: 17486f1a5967b0844998d2a48fa0c24c, type: 3}
+  eventEffects: []
+  testEffects:
+  - {fileID: 0}

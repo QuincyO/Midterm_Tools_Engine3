@@ -22,7 +22,7 @@ namespace Quincy.Calender
         //Private Backing Fields
         [SerializeField] int _hour;
         [SerializeField]private int minutes;
-        [SerializeField]private bool _isMorning;
+        private bool _isMorning;
 
         [SerializeField]
         public int MaxDays
@@ -185,15 +185,15 @@ namespace Quincy.Calender
         {
             if (other == null) return 1;
             
-            var yearComparison = Year.CompareTo(other.Year);
+            var yearComparison = _year.CompareTo(other._year);
             if (yearComparison != 0) return yearComparison;
             var monthComparison = Month.CompareTo(other.Month);
             if (monthComparison != 0) return monthComparison;
-            var dayComparison = Day.CompareTo(other.Day);
+            var dayComparison = _day.CompareTo(other._day);
             if(dayComparison != 0) return dayComparison;
-            var hourComparison = Hours.CompareTo(other.Hours);
+            var hourComparison = _hour.CompareTo(other._hour);
             if (hourComparison != 0) return hourComparison;
-            var minuteComparison = Minutes.CompareTo(other.Minutes);
+            var minuteComparison = minutes.CompareTo(other.minutes);
             if (minuteComparison != 0) return minuteComparison;
             
             return _isMorning.CompareTo(other._isMorning);

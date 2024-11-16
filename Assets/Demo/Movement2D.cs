@@ -39,6 +39,11 @@ public class Movement2D : MonoBehaviour, ICalenderAttendee
         //AddSelfToEvent(calender.GetEvent("Philips Birthday"));
 
         calender.ListenToEvent("Philips Birthday", this);
+
+        CalenderManager.DisplayCalender(calender);
+        
+
+        //calender.ListenToAllEvents(this);
     }
 
     

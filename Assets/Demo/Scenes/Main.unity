@@ -193,17 +193,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1191923913 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3938018011812356881, guid: 5f09ba5d5baf8b142a7f3b879d15e8d9, type: 3}
-  m_PrefabInstance: {fileID: 3821531933616031403}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1641229097
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,18 +306,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartingDate:
-    _hour: 21
-    minutes: 45
-    _isMorning: 0
+    _hour: 23
+    minutes: 50
     _year: 1998
     _month: 1
     _day: 14
   weatherPrefabs: []
   CalenderUIPrefab: {fileID: 5146296351169328536, guid: 160cff6492bb9b84e98f4e3a7aa1391f, type: 3}
-  AdminControls: 0
-  TimeStepInMinutes: 10
+  TimeStepInMinutes: 1
   TickRate: 0.2
-  sun: {fileID: 1191923913}
+  sun: {fileID: 0}
   IsMilitaryTime: 0
 --- !u!1001 &3821531933616031403
 PrefabInstance:
@@ -471,6 +458,10 @@ PrefabInstance:
     - target: {fileID: 547008342577019084, guid: a499c6fe5703d9f469d5832d2959df4a, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383115451339927367, guid: a499c6fe5703d9f469d5832d2959df4a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2581361455239582013, guid: a499c6fe5703d9f469d5832d2959df4a, type: 3}
       propertyPath: m_IsActive

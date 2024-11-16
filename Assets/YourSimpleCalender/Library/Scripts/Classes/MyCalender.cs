@@ -9,6 +9,9 @@ namespace Quincy.Calender
 {
     public partial class MyCalender : MonoBehaviour
     {
+    
+        public static Date CurrentDate { get; private set; }
+    
         public string CalenderName;
         public  LinkedList<Event> events; //The List that will actually be used to store events
         [SerializeField] private List<KeyDate> keyDates = new List<KeyDate>(); //Editor List of Dates, created with SCriptable Objects
@@ -103,6 +106,14 @@ namespace Quincy.Calender
                 return;
             }
             e.AddAttendee(attendee);
+        }
+
+        public void ListenToAllEvents(ICalenderAttendee attendee)
+        {
+            foreach (Event e in events)
+            {
+                e.AddAttendee(attendee);
+            }
         }
     }
 }

@@ -8,10 +8,7 @@ using UnityEngine.UI;
 
 namespace Quincy.Calender
 {
-    public partial class MyCalender 
-    {
-        public static Date CurrentDate { get; private set; }
-    }
+
 
     [Serializable]
     public class Event :IComparable<Event>
@@ -25,7 +22,8 @@ namespace Quincy.Calender
         
         public UnityAction<string> OnEvent;
 
-        public List<EffectScript> EventEffects = new List<EffectScript>();
+        public List<GameObject> EventEffectsPrefabs = new List<GameObject>();
+        public LinkedList<EffectScript> effectScripts = new LinkedList<EffectScript>();
 
         public Color EventColor { get; set; }
 
@@ -40,6 +38,14 @@ namespace Quincy.Calender
 
         public void AddAttendee(ICalenderAttendee calenderAttendee)
         {
+            foreach (var attendee in _attendees)
+            {
+                if (attendee == calenderAttendee)
+                {   
+                    Debug.LogWarning("Attendee already exists in event. You are trying to add the same attendee twice");
+                    return;
+                }
+            }
             _attendees.Add(calenderAttendee);
         }
 
@@ -73,7 +79,7 @@ namespace Quincy.Calender
             startingDate = MyCalender.CurrentDate;
             endDate = null;
             EventIcon = null;
-            EventEffects = new List<EffectScript>();
+            EventEffectsPrefabs = new List<GameObject>();
 
         }
 
@@ -85,10 +91,10 @@ namespace Quincy.Calender
             _attendees = new List<ICalenderAttendee>();
             EventColor = scriptable.eventColor;
             EventIcon = scriptable.eventIcon;
-            foreach (var effect in scriptable.eventEffects)
+            foreach (var prefab in scriptable.eventEffectsPrefab)
             {
-                if (effect == null) continue;
-                EventEffects.Add(effect.GetComponent<EffectScript>());
+                if (prefab == null) continue;
+                EventEffectsPrefabs.Add(prefab);
             }
         }
 
@@ -107,15 +113,17 @@ namespace Quincy.Calender
             EventName = eventName;
             _attendees = new List<ICalenderAttendee>();
             EventIcon = null;
-            EventEffects = new List<EffectScript>();
+            EventEffectsPrefabs = new List<GameObject>();
         }
         #endregion
 
         public void TriggerEvent()
         {
             OnEvent?.Invoke(EventName);
-            foreach (var effect in EventEffects)
+
+            foreach (var effect in effectScripts)
             {
+                effect.gameObject.SetActive(true);
                 effect.TriggerEffect();
             }
             foreach (var attendee in _attendees)
@@ -132,9 +140,6 @@ namespace Quincy.Calender
             return startingDate.CompareTo(other.startingDate);
         }
     }
-    
-    
-
 }
 
 

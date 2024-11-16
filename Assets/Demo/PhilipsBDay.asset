@@ -16,11 +16,11 @@ MonoBehaviour:
   eventColor: {r: 0, g: 1, b: 0.12997723, a: 1}
   StartDate:
     _hour: 0
-    minutes: 0
-    _isMorning: 0
+    minutes: 30
     _year: 1998
     _month: 1
     _day: 15
   eventIcon: {fileID: -1004033788, guid: 17486f1a5967b0844998d2a48fa0c24c, type: 3}
-  eventEffects:
-  - {fileID: 0}
+  eventEffectsPrefab:
+  - {fileID: 7271497718951143484, guid: f2b89aa65e0104b44a141b18caebb767, type: 3}
+  - {fileID: 5056951705168689871, guid: b2f3511f2f65c45428b60588d98440e1, type: 3}

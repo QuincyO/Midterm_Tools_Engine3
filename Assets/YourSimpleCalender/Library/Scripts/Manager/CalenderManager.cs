@@ -12,7 +12,7 @@ namespace Quincy.Calender
 
         
         private static LinkedList<MyCalender> _calenders = new LinkedList<MyCalender>();
-        private static LinkedList<Date> _eventsToRemove = new LinkedList<Date>();
+        private static LinkedList<Event> _passedEvents = new LinkedList<Event>();
         private static SortedList<Date, Event> _eventsByDate = new SortedList<Date, Event>();
         private static SortedList<Date, Event> _eventsToday = new SortedList<Date, Event>();
         private Date _lastProcessedDate;
@@ -29,14 +29,13 @@ namespace Quincy.Calender
         [SerializeField] public static Dictionary<string,GameObject> Weather = new Dictionary<string, GameObject>();
 
         [SerializeField] public GameObject CalenderUIPrefab;
-        [SerializeField] public bool AdminControls;
-
         
         
         [Space][Header("Time Settings")]
-        public int TimeStepInMinutes = 1;
-        public float TickRate = 1;
+        [HideInInspector]public int TimeStepInMinutes = 1;
+        [HideInInspector]public float TickRate = 1;
         [SerializeField] Light2D sun; 
+        [Space]
 
 
         [HideInInspector] public bool IsMilitaryTime = false;
@@ -173,16 +172,29 @@ namespace Quincy.Calender
 
         private void RemoveOldEvents()
         {
-            if(_eventsToRemove.Count == 0)
+            if(_passedEvents.Count == 0)
                 return;
-            foreach (var date in _eventsToRemove)
+
+                
+            foreach (var e in _passedEvents)
             {
-                if(_eventsByDate.ContainsKey(date))
-                    _eventsByDate.Remove(date);
-                if (_eventsToday.ContainsKey(date))
-                    _eventsToday.Remove(date);
+                if (_eventsToday.ContainsKey(e.startingDate))
+                {
+                    _eventsToday.Remove(e.startingDate);
+                }
             }
-            _eventsToRemove.Clear();
+        }
+
+        void DestroyPassedEventsEffects(Date date)
+        {
+            foreach (var Event in _passedEvents)
+            {
+                foreach (var effect in Event.effectScripts)
+                {
+                    Destroy(effect.gameObject);
+                }
+                Event.effectScripts.Clear();
+            }
         }
 
         private void PrepareEventsForToday()
@@ -194,14 +206,23 @@ namespace Quincy.Calender
 
             OnNewDay?.Invoke(CurrentDate);
             _lastProcessedDate = CurrentDate;
+
             foreach (var upcomingEvent in _eventsByDate)
             {
                 if (upcomingEvent.Key.Day == CurrentDate.Day &&
                    upcomingEvent.Key.Month == CurrentDate.Month &&
                    upcomingEvent.Key.Year == CurrentDate.Year)
                 {
+                    foreach (GameObject EffectGameObjectPrefab in upcomingEvent.Value.EventEffectsPrefabs)
+                    {
+                        var effect = Instantiate(EffectGameObjectPrefab, Vector3.zero, Quaternion.identity);
+                        effect.name = $"{upcomingEvent.Value.EventName}'s {EffectGameObjectPrefab.name} effect";
+                        effect.SetActive(false);
+                        upcomingEvent.Value.effectScripts.AddLast(effect.GetComponent<EffectScript>());
+                    }
+
+
                     _eventsToday.Add(upcomingEvent.Key, upcomingEvent.Value);
-                    _eventsToRemove.AddLast(upcomingEvent.Key);
 
                 }
                 else if (upcomingEvent.Key > CurrentDate)
@@ -218,7 +239,7 @@ namespace Quincy.Calender
                 if (CurrentDate >= Event.Key)
                 {
                     Event.Value.TriggerEvent();
-                    _eventsToRemove.AddLast(Event.Key);
+                    _passedEvents.AddLast(Event.Value);
                 }
             }
         }
